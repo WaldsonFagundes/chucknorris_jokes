@@ -1,8 +1,10 @@
-class Jokes {
+import 'package:equatable/equatable.dart';
 
-  final String textJoke;
-  final String categories;
+class Jokes  extends Equatable {
+  final String jokeText;
 
-  const Jokes ({required this.textJoke, required this.categories});
+  const Jokes({required this.jokeText});
 
+  @override
+  List<Object?> get props => [jokeText];
 }

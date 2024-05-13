@@ -1,0 +1,11 @@
+{
+  "categories": [
+    "animal"
+  ],
+  "created_at": "2020-01-05 13:42:19.104863",
+  "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+  "id": "o-vfxwx6rgecuo_f5cecpq",
+  "updated_at": "2020-01-05 13:42:19.104863",
+  "url": "https://api.chucknorris.io/jokes/o-vfxwx6rgecuo_f5cecpq",
+  "value": "Test text"
+}
