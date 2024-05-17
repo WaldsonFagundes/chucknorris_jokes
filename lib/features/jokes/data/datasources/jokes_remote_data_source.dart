@@ -1,8 +1,11 @@
+import 'dart:convert';
+
+import 'package:chucknorris_jokes/core/error/execeptions.dart';
+
 import '../models/jokes_model.dart';
+import 'package:http/http.dart' as http;
 
 abstract class JokesRemoteDataSource {
-
-
   /// Calls the https://api.chucknorris.io/jokes/random endpoint.
   ///
   /// Throws a [ServerExeception] for all error codes.
@@ -17,4 +20,34 @@ abstract class JokesRemoteDataSource {
   ///
   /// Throws a [ServerExeception] for all error codes.
   Future<JokesModel> getWithTextJokes(String textSearch);
+}
+
+class JokesRemoteDataSourceImpl implements JokesRemoteDataSource {
+  final http.Client client;
+
+  JokesRemoteDataSourceImpl({required this.client});
+
+  @override
+  Future<JokesModel> getRandomCategoryJokes(String category) =>
+      _getJokesFromUrl(
+          'https://api.chucknorris.io/jokes/random?category=$category');
+
+  @override
+  Future<JokesModel> getRandomJokes() =>
+      _getJokesFromUrl('https://api.chucknorris.io/jokes/random');
+
+  @override
+  Future<JokesModel> getWithTextJokes(String textSearch) => _getJokesFromUrl(
+      'https://api.chucknorris.io/jokes/search?query=$textSearch');
+
+  Future<JokesModel> _getJokesFromUrl(String url) async {
+    final response = await client.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+    });
+    if (response.statusCode == 200) {
+      return JokesModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
+  }
 }
