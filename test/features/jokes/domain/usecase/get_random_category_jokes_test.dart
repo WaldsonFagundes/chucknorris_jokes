@@ -26,7 +26,7 @@ void main() {
     when(mockJokesRepository.getRandomCategoryJokes(any))
         .thenAnswer((_) async => const Right(testJokes));
 
-    final result = await usecase(const Params(category: 'any'));
+    final result = await usecase(const ParamsRandomCategory(category: 'any'));
 
     expect(result, const Right(testJokes));
 

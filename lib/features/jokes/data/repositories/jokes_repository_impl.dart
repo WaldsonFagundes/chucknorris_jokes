@@ -37,6 +37,15 @@ class JokesRepositoryImpl implements JokesRepository {
     return await _getJokes(() => remoteDataSource.getWithTextJokes(text));
   }
 
+  @override
+  Future<Either<Failure, List<String>>> getCategories() async {
+    try {
+      return Right(await remoteDataSource.getCategories());
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
   Future<Either<Failure, Jokes>> _getJokes(
       _TypesOfGetJokes getTypesOfMethods) async {
     if (await networkInfo.isConnected) {

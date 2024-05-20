@@ -11,6 +11,8 @@ abstract class JokesRemoteDataSource {
   /// Throws a [ServerExeception] for all error codes.
   Future<JokesModel> getRandomJokes();
 
+  Future<List<String>> getCategories();
+
   /// Calls the https://api.chucknorris.io/jokes/random?category={category} endpoint.
   /// ["animal","career","celebrity","dev","explicit","fashion","food","history","money","movie","music","political","religion","science","sport","travel"]
   /// Throws a [ServerExeception] for all error codes.
@@ -39,6 +41,22 @@ class JokesRemoteDataSourceImpl implements JokesRemoteDataSource {
   @override
   Future<JokesModel> getWithTextJokes(String textSearch) => _getJokesFromUrl(
       'https://api.chucknorris.io/jokes/search?query=$textSearch');
+
+  @override
+  Future<List<String>> getCategories() async {
+    final response = await client.get(
+        Uri.parse("https://api.chucknorris.io/jokes/categories"),
+        headers: {
+          'Content-Type': 'application/json',
+        });
+    if (response.statusCode == 200) {
+      final List<String> listCategories = json.decode(response.body);
+
+      return listCategories;
+    } else {
+      throw ServerException();
+    }
+  }
 
   Future<JokesModel> _getJokesFromUrl(String url) async {
     final response = await client.get(Uri.parse(url), headers: {

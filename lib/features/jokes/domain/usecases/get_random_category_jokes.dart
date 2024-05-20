@@ -1,23 +1,27 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/jokes.dart';
 import '../repositories/jokes_repository.dart';
 
-class GetRandomCategoryJokes implements UseCase<Jokes, Params> {
+class GetRandomCategoryJokes implements UseCase<Jokes, ParamsRandomCategory> {
   final JokesRepository repository;
 
   GetRandomCategoryJokes(this.repository);
 
   @override
-  Future<Either<Failure, Jokes>> call(Params params) async {
+  Future<Either<Failure, Jokes>> call(ParamsRandomCategory params) async {
     return await repository.getRandomCategoryJokes(params.category);
   }
 }
 
-class Params {
+class ParamsRandomCategory extends Equatable {
   final String category;
 
-  const Params({required this.category});
+  const ParamsRandomCategory({required this.category});
+
+  @override
+  List<Object?> get props => [category];
 }

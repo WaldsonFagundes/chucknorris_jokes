@@ -66,6 +66,16 @@ class MockJokesRemoteDataSource extends _i1.Mock
       ) as _i4.Future<_i2.JokesModel>);
 
   @override
+  _i4.Future<List<String>> getCategories() => (super.noSuchMethod(
+        Invocation.method(
+          #getCategories,
+          [],
+        ),
+        returnValue: _i4.Future<List<String>>.value(<String>[]),
+        returnValueForMissingStub: _i4.Future<List<String>>.value(<String>[]),
+      ) as _i4.Future<List<String>>);
+
+  @override
   _i4.Future<_i2.JokesModel> getRandomCategoryJokes(String? category) =>
       (super.noSuchMethod(
         Invocation.method(

@@ -41,6 +41,32 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 /// See the documentation for Mockito's code generation for more information.
 class MockJokesRepository extends _i1.Mock implements _i3.JokesRepository {
   @override
+  _i4.Future<_i2.Either<_i5.Failure, List<String>>> getCategories() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCategories,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<String>>>.value(
+            _FakeEither_0<_i5.Failure, List<String>>(
+          this,
+          Invocation.method(
+            #getCategories,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, List<String>>>.value(
+                _FakeEither_0<_i5.Failure, List<String>>(
+          this,
+          Invocation.method(
+            #getCategories,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<String>>>);
+
+  @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>> getRandomJokes() =>
       (super.noSuchMethod(
         Invocation.method(
