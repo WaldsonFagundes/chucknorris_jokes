@@ -1,3 +1,4 @@
+import 'package:chucknorris_jokes/core/error/failures.dart';
 import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart';
 import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart';
 import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_category_jokes.dart';
@@ -58,5 +59,37 @@ void main() {
       verify(mockGetRandomCategoryJokes(
           const ParamsRandomCategory(category: testTextCategory)));
     });
+    test("Should emit [Loading, Loaded] when data is gotten successfully",
+        () async {
+      when(mockGetRandomCategoryJokes(any))
+          .thenAnswer((_) async => const Right(testJokes));
+
+      final expected = [
+        Empty(),
+        Loading(),
+        const Loaded(jokes: testJokes),
+      ];
+
+      expectLater(bloc.stream, emitsInOrder(expected));
+
+      bloc.add(const GetJokeForCategory(testTextCategory));
+    });
+
+     test ("Should emit [Loading, Error] when getting data fails", () async {
+       when(mockGetRandomCategoryJokes(any))
+           .thenAnswer((_) async => Left(CacheFailure()));
+
+
+       final expected = [
+         Empty(),
+         Loading(),
+         const Error(message: CACHE_FAILURE_MESSAGE)
+       ];
+
+       expectLater(bloc.stream, emitsInOrder(expected));
+
+       bloc.add(const GetJokeForCategory(testTextCategory));
+
+         });
   });
 }
