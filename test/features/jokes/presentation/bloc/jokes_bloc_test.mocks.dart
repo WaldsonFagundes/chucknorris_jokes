@@ -172,7 +172,8 @@ class MockGetRandomJokes extends _i1.Mock implements _i9.GetRandomJokes {
       ) as _i2.JokesRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>> call(_i9.NoParams? params) =>
+  _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>> call(
+          _i9.NoParamsRandom? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

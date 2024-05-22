@@ -24,7 +24,7 @@ void main() {
    when(mockJokesRepository.getRandomJokes())
         .thenAnswer((_) async => const Right(testJokes));
 
-    final result = await usecase(NoParams());
+    final result = await usecase(NoParamsRandom());
 
     expect(result, const Right(testJokes));
     verify(mockJokesRepository.getRandomJokes());

@@ -7,7 +7,7 @@ abstract class JokeState extends Equatable {
   const JokeState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 
@@ -24,5 +24,9 @@ class Loaded extends JokeState {
 
 class Error extends JokeState {
   final String message;
+
   const Error({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }

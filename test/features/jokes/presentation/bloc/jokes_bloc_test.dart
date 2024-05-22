@@ -59,6 +59,7 @@ void main() {
       verify(mockGetRandomCategoryJokes(
           const ParamsRandomCategory(category: testTextCategory)));
     });
+
     test("Should emit [Loading, Loaded] when data is gotten successfully",
         () async {
       when(mockGetRandomCategoryJokes(any))
@@ -75,21 +76,114 @@ void main() {
       bloc.add(const GetJokeForCategory(testTextCategory));
     });
 
-     test ("Should emit [Loading, Error] when getting data fails", () async {
-       when(mockGetRandomCategoryJokes(any))
-           .thenAnswer((_) async => Left(CacheFailure()));
+    test("Should emit [Loading, Error] when getting data fails", () async {
+      when(mockGetRandomCategoryJokes(any))
+          .thenAnswer((_) async => Left(ServerFailure()));
 
+      final expected = [
+        Empty(),
+        Loading(),
+        const Error(message: SERVER_FAILURE_MESSAGE)
+      ];
 
-       final expected = [
-         Empty(),
-         Loading(),
-         const Error(message: CACHE_FAILURE_MESSAGE)
-       ];
+      expectLater(bloc.stream, emitsInOrder(expected));
 
-       expectLater(bloc.stream, emitsInOrder(expected));
+      bloc.add(const GetJokeForCategory(testTextCategory));
+    });
 
-       bloc.add(const GetJokeForCategory(testTextCategory));
+    test(
+        "Should emit [Loading, Error] when a proper message for the error when getting data",
+        () async {
+      when(mockGetRandomCategoryJokes(any))
+          .thenAnswer((_) async => Left(CacheFailure()));
 
-         });
+      final expected = [
+        Empty(),
+        Loading(),
+        const Error(message: CACHE_FAILURE_MESSAGE)
+      ];
+
+      expectLater(bloc.stream, emitsInOrder(expected));
+
+      bloc.add(const GetJokeForCategory(testTextCategory));
+    });
+  });
+
+  group('GetWithTextJokes', () {
+    const testTextSearch = 'any search';
+
+    const testJokes = Jokes(jokeText: 'Test joke');
+
+    test("Should get data from the GetRandomCategoryJokes use case", () async {
+      when(mockGetWithTextJokes(any))
+          .thenAnswer((_) async => const Right(testJokes));
+
+      bloc.add(const GetJokeForSearch(testTextSearch));
+
+      await untilCalled(mockGetWithTextJokes(any));
+
+      verify(mockGetWithTextJokes(const Params(text: testTextSearch)));
+    });
+
+    test("Should emit [Loading, Loaded] when data is gotten successfully",
+        () async {
+      when(mockGetWithTextJokes(any))
+          .thenAnswer((_) async => const Right(testJokes));
+
+      final expected = [
+        Empty(),
+        Loading(),
+        const Loaded(jokes: testJokes),
+      ];
+
+      expectLater(bloc.stream, emitsInOrder(expected));
+
+      bloc.add(const GetJokeForSearch(testTextSearch));
+    });
+
+    test("Should emit [Loading, Error] when getting data fails", () async {
+      when(mockGetWithTextJokes(any))
+          .thenAnswer((_) async => Left(ServerFailure()));
+
+      final expected = [
+        Empty(),
+        Loading(),
+        const Error(message: SERVER_FAILURE_MESSAGE)
+      ];
+
+      expectLater(bloc.stream, emitsInOrder(expected));
+
+      bloc.add(const GetJokeForSearch(testTextSearch));
+    });
+
+    test(
+        "Should emit [Loading, Error] when a proper message for the error when getting data",
+        () async {
+      when(mockGetWithTextJokes(any))
+          .thenAnswer((_) async => Left(CacheFailure()));
+
+      final expected = [
+        Empty(),
+        Loading(),
+        const Error(message: CACHE_FAILURE_MESSAGE)
+      ];
+
+      expectLater(bloc.stream, emitsInOrder(expected));
+
+      bloc.add(const GetJokeForSearch(testTextSearch));
+    });
+  });
+
+  group('GetRandomJokes', () {
+    test("Should get data from the random use case", () async {
+      const testJokes = Jokes(jokeText: 'Test joke');
+
+      when(mockGetRandomJokes(any))
+          .thenAnswer((_) async => const Right(testJokes));
+
+      bloc.add(GetJokeForRandom());
+
+      await untilCalled(mockGetRandomJokes(any));
+    });
   });
 }

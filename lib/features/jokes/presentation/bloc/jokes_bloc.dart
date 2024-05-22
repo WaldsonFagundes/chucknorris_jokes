@@ -33,6 +33,20 @@ class JokesBloc extends Bloc<JokesEvent, JokeState> {
         final failureOrJoke =
         await getRandomCategoryJokes(ParamsRandomCategory(category: event.category));
         await _eitherLoadedOrErrorState(failureOrJoke, emit);
+
+      } else if(event is GetJokeForSearch){
+        emit(Empty());
+        emit(Loading());
+        final failureOrJoke =
+        await getWithTextJokes(Params(text: event.textSearch));
+        await _eitherLoadedOrErrorState(failureOrJoke, emit);
+      } else if (event is GetJokeForRandom){
+        emit(Empty());
+        emit(Loading());
+        final failureOrJoke =
+            await getRandomJokes(NoParamsRandom());
+
+        await _eitherLoadedOrErrorState(failureOrJoke, emit);
       }
     });
   }
