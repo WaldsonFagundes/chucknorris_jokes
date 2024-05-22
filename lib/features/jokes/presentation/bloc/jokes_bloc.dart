@@ -30,34 +30,41 @@ class JokesBloc extends Bloc<JokesEvent, JokeState> {
       if (event is GetJokeForCategory) {
         emit(Empty());
         emit(Loading());
-        final failureOrJoke =
-        await getRandomCategoryJokes(ParamsRandomCategory(category: event.category));
+        final failureOrJoke = await getRandomCategoryJokes(
+            ParamsRandomCategory(category: event.category));
         await _eitherLoadedOrErrorState(failureOrJoke, emit);
-
-      } else if(event is GetJokeForSearch){
+      } else if (event is GetJokeForSearch) {
         emit(Empty());
         emit(Loading());
         final failureOrJoke =
-        await getWithTextJokes(Params(text: event.textSearch));
+            await getWithTextJokes(Params(text: event.textSearch));
         await _eitherLoadedOrErrorState(failureOrJoke, emit);
-      } else if (event is GetJokeForRandom){
+      } else if (event is GetJokeForRandom) {
         emit(Empty());
         emit(Loading());
-        final failureOrJoke =
-            await getRandomJokes(NoParamsRandom());
+        final failureOrJoke = await getRandomJokes(NoParamsRandom());
 
         await _eitherLoadedOrErrorState(failureOrJoke, emit);
+      } else if (event is GetCategories) {
+        emit(Empty());
+        emit(Loading());
+        final failureOrCategories = await getCategories(NoParams());
+
+        emit(failureOrCategories.fold(
+            (failure) => Error(message: _mapFailureToMessage(failure)),
+            (categories) => LoadedCategories()));
+
       }
     });
   }
 }
 
-Future<void> _eitherLoadedOrErrorState(Either<Failure, Jokes> failureOrJoke,
-    Emitter<JokeState> emit) async {
-  emit(failureOrJoke.fold((failure) =>
-      Error(message: _mapFailureToMessage(failure)), (joke) => Loaded(jokes: joke)));
+Future<void> _eitherLoadedOrErrorState(
+    Either<Failure, Jokes> failureOrJoke, Emitter<JokeState> emit) async {
+  emit(failureOrJoke.fold(
+      (failure) => Error(message: _mapFailureToMessage(failure)),
+      (joke) => Loaded(jokes: joke)));
 }
-
 
 String _mapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {

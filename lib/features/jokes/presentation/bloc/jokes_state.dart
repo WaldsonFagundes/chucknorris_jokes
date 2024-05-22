@@ -22,6 +22,10 @@ class Loaded extends JokeState {
 
 }
 
+class LoadedCategories extends JokeState{
+
+}
+
 class Error extends JokeState {
   final String message;
 
