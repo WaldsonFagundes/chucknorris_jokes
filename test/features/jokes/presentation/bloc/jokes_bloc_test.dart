@@ -1,12 +1,13 @@
 import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
 import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_category_jokes.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_jokes.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_with_text_jokes.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/bloc/jokes_bloc.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/bloc/jokes_event.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/bloc/jokes_state.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_category.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
+import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_bloc.dart';
+import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_event.dart';
+import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_state.dart';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -14,50 +15,50 @@ import 'package:mockito/mockito.dart';
 
 import 'jokes_bloc_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<GetRandomCategoryJokes>()])
-@GenerateNiceMocks([MockSpec<GetWithTextJokes>()])
-@GenerateNiceMocks([MockSpec<GetRandomJokes>()])
+@GenerateNiceMocks([MockSpec<GetJokeByCategory>()])
+@GenerateNiceMocks([MockSpec<GetJokeBySearch>()])
+@GenerateNiceMocks([MockSpec<GetRandomJoke>()])
 @GenerateNiceMocks([MockSpec<GetCategories>()])
 void main() {
-  late MockGetRandomCategoryJokes mockGetRandomCategoryJokes;
-  late MockGetWithTextJokes mockGetWithTextJokes;
-  late MockGetRandomJokes mockGetRandomJokes;
-  late MockGetCategories mockGetCategories;
-  late JokesBloc bloc;
+  
+  
+  
+  late MockGetJokeByCategory mockGetRandomCategoryJokes;
+  late MockGetJokeBySearch mockGetWithTextJokes;
+  late MockGetRandomJoke mockGetRandomJokes;
+  late JokeBloc bloc;
 
   setUp(() {
-    mockGetRandomCategoryJokes = MockGetRandomCategoryJokes();
-    mockGetWithTextJokes = MockGetWithTextJokes();
-    mockGetRandomJokes = MockGetRandomJokes();
-    mockGetCategories = MockGetCategories();
+    mockGetRandomCategoryJokes = MockGetJokeByCategory();
+    mockGetWithTextJokes = MockGetJokeBySearch();
+    mockGetRandomJokes = MockGetRandomJoke();
 
-    bloc = JokesBloc(
-      getRandomCategoryJokes: mockGetRandomCategoryJokes,
-      getRandomJokes: mockGetRandomJokes,
-      getWithTextJokes: mockGetWithTextJokes,
-      getCategories: mockGetCategories,
+    bloc = JokeBloc(
+      getJokeByCategory: mockGetRandomCategoryJokes,
+      getRandomJoke: mockGetRandomJokes,
+      getJokeBySearch: mockGetWithTextJokes,
     );
   });
 
   test("initialState should be Empty ", () {
-    expect(bloc.state, equals(Empty()));
+    expect(bloc.state, equals(JokeInitialState()));
   });
 
   group('GetRandomCategoryJokes', () {
     const testTextCategory = 'any category';
 
-    const testJokes = Jokes(jokeText: 'Test joke');
+    const testJokes = Joke(jokeText: 'Test joke');
 
     test("Should get data from the GetRandomCategoryJokes use case", () async {
       when(mockGetRandomCategoryJokes(any))
           .thenAnswer((_) async => const Right(testJokes));
 
-      bloc.add(const GetJokeForCategory(testTextCategory));
+      bloc.add(const FetchJokeByCategory(testTextCategory));
 
       await untilCalled(mockGetRandomCategoryJokes(any));
 
       verify(mockGetRandomCategoryJokes(
-          const ParamsRandomCategory(category: testTextCategory)));
+          const CategoryParams(category: testTextCategory)));
     });
 
     test("Should emit [Loading, Loaded] when data is gotten successfully",
@@ -66,14 +67,14 @@ void main() {
           .thenAnswer((_) async => const Right(testJokes));
 
       final expected = [
-        Empty(),
-        Loading(),
-        const Loaded(jokes: testJokes),
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeLoaded(jokes: testJokes),
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(const GetJokeForCategory(testTextCategory));
+      bloc.add(const FetchJokeByCategory(testTextCategory));
     });
 
     test("Should emit [Loading, Error] when getting data fails", () async {
@@ -81,14 +82,14 @@ void main() {
           .thenAnswer((_) async => Left(ServerFailure()));
 
       final expected = [
-        Empty(),
-        Loading(),
-        const Error(message: SERVER_FAILURE_MESSAGE)
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeError(message: SERVER_FAILURE_MESSAGE)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(const GetJokeForCategory(testTextCategory));
+      bloc.add(const FetchJokeByCategory(testTextCategory));
     });
 
     test(
@@ -98,31 +99,31 @@ void main() {
           .thenAnswer((_) async => Left(CacheFailure()));
 
       final expected = [
-        Empty(),
-        Loading(),
-        const Error(message: CACHE_FAILURE_MESSAGE)
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeError(message: CACHE_FAILURE_MESSAGE)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(const GetJokeForCategory(testTextCategory));
+      bloc.add(const FetchJokeByCategory(testTextCategory));
     });
   });
 
   group('GetWithTextJokes', () {
     const testTextSearch = 'any search';
 
-    const testJokes = Jokes(jokeText: 'Test joke');
+    const testJokes = Joke(jokeText: 'Test joke');
 
     test("Should get data from the GetRandomCategoryJokes use case", () async {
       when(mockGetWithTextJokes(any))
           .thenAnswer((_) async => const Right(testJokes));
 
-      bloc.add(const GetJokeForSearch(testTextSearch));
+      bloc.add(const FetchJokeBySearch(testTextSearch));
 
       await untilCalled(mockGetWithTextJokes(any));
 
-      verify(mockGetWithTextJokes(const Params(text: testTextSearch)));
+      verify(mockGetWithTextJokes(const SearchParams(text: testTextSearch)));
     });
 
     test("Should emit [Loading, Loaded] when data is gotten successfully",
@@ -131,14 +132,14 @@ void main() {
           .thenAnswer((_) async => const Right(testJokes));
 
       final expected = [
-        Empty(),
-        Loading(),
-        const Loaded(jokes: testJokes),
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeLoaded(jokes: testJokes),
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(const GetJokeForSearch(testTextSearch));
+      bloc.add(const FetchJokeBySearch(testTextSearch));
     });
 
     test("Should emit [Loading, Error] when getting data fails", () async {
@@ -146,14 +147,14 @@ void main() {
           .thenAnswer((_) async => Left(ServerFailure()));
 
       final expected = [
-        Empty(),
-        Loading(),
-        const Error(message: SERVER_FAILURE_MESSAGE)
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeError(message: SERVER_FAILURE_MESSAGE)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(const GetJokeForSearch(testTextSearch));
+      bloc.add(const FetchJokeBySearch(testTextSearch));
     });
 
     test(
@@ -163,27 +164,27 @@ void main() {
           .thenAnswer((_) async => Left(CacheFailure()));
 
       final expected = [
-        Empty(),
-        Loading(),
-        const Error(message: CACHE_FAILURE_MESSAGE)
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeError(message: CACHE_FAILURE_MESSAGE)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(const GetJokeForSearch(testTextSearch));
+      bloc.add(const FetchJokeBySearch(testTextSearch));
     });
   });
 
   group('GetRandomJokes', () {
 
-    const testJokes = Jokes(jokeText: 'Test joke');
+    const testJokes = Joke(jokeText: 'Test joke');
 
     test("Should get data from the random use case", () async {
 
       when(mockGetRandomJokes(any))
           .thenAnswer((_) async => const Right(testJokes));
 
-      bloc.add(GetJokeForRandom());
+      bloc.add(FetchRandomJoke());
 
       await untilCalled(mockGetRandomJokes(any));
     });
@@ -193,27 +194,27 @@ void main() {
            .thenAnswer((_) async => const Right(testJokes));
 
        final expected = [
-         Empty(),
-         Loading(),
-         const Loaded(jokes: testJokes),
+         JokeInitialState(),
+         JokeLoading(),
+         const JokeLoaded(jokes: testJokes),
        ];
        expectLater(bloc.stream, emitsInOrder(expected));
 
-       bloc.add(GetJokeForRandom());
+       bloc.add(FetchRandomJoke());
          });
     test("Should emit [Loading, Error] when getting data fails", () async {
       when(mockGetRandomJokes(any))
           .thenAnswer((_) async => Left(ServerFailure()));
 
       final expected = [
-        Empty(),
-        Loading(),
-        const Error(message: SERVER_FAILURE_MESSAGE)
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeError(message: SERVER_FAILURE_MESSAGE)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
 
-      bloc.add(GetJokeForRandom());
+      bloc.add(FetchRandomJoke());
     });
 
     test(
@@ -223,14 +224,14 @@ void main() {
               .thenAnswer((_) async => Left(CacheFailure()));
 
           final expected = [
-            Empty(),
-            Loading(),
-            const Error(message: CACHE_FAILURE_MESSAGE)
+            JokeInitialState(),
+            JokeLoading(),
+            const JokeError(message: CACHE_FAILURE_MESSAGE)
           ];
 
           expectLater(bloc.stream, emitsInOrder(expected));
 
-          bloc.add( GetJokeForRandom());
+          bloc.add( FetchRandomJoke());
         });
 
   });

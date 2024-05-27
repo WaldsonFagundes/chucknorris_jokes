@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:chucknorris_jokes/core/error/execeptions.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/jokes_remote_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/models/jokes_model.dart';
+import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_data_source.dart';
+import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
@@ -13,12 +13,12 @@ import 'jokes_remote_data_source_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<http.Client>()])
 void main() {
-  late JokesRemoteDataSource dataSource;
+  late JokeRemoteDataSource dataSource;
   late MockClient mockHttpClient;
 
   setUp(() {
     mockHttpClient = MockClient();
-    dataSource = JokesRemoteDataSourceImpl(client: mockHttpClient);
+    dataSource = JokeRemoteDataSourceImpl(client: mockHttpClient);
   });
 
   void setUpMockHttpClientSuccess200() {
@@ -34,7 +34,7 @@ void main() {
 
   group('getRandomCategoryJokes', () {
     const testTextCategory = 'test category';
-    final testJokesModel = JokesModel.fromJson(
+    final testJokesModel = JokeModel.fromJson(
         json.decode(fixtureReader('jokes_api_response.json')));
 
     test(
@@ -42,7 +42,7 @@ void main() {
         () async {
       setUpMockHttpClientSuccess200();
 
-      await dataSource.getRandomCategoryJokes(testTextCategory);
+      await dataSource.getJokesByCategory(testTextCategory);
 
       verify(mockHttpClient.get(
           Uri.parse(
@@ -55,7 +55,7 @@ void main() {
     test("Should return Jokes when the response code is 200", () async {
       setUpMockHttpClientSuccess200();
 
-      final result = await dataSource.getRandomCategoryJokes(testTextCategory);
+      final result = await dataSource.getJokesByCategory(testTextCategory);
 
       expect(result, equals(testJokesModel));
     });
@@ -65,7 +65,7 @@ void main() {
         () async {
       setUpMockHttpClient404();
 
-      final call = dataSource.getRandomCategoryJokes;
+      final call = dataSource.getJokesByCategory;
 
       expect(() => call(testTextCategory),
           throwsA(const TypeMatcher<ServerException>()));
@@ -75,7 +75,7 @@ void main() {
 
   group('getWithTextJokes', () {
     const testTextSearch = 'anything';
-    final testJokesModel = JokesModel.fromJson(
+    final testJokesModel = JokeModel.fromJson(
         json.decode(fixtureReader('jokes_api_response.json')));
 
     test(
@@ -83,7 +83,7 @@ void main() {
             () async {
           setUpMockHttpClientSuccess200();
 
-          await dataSource.getWithTextJokes(testTextSearch);
+          await dataSource.getJokeBySearch(testTextSearch);
 
           verify(mockHttpClient.get(
               Uri.parse(
@@ -96,7 +96,7 @@ void main() {
     test("Should return Jokes when the response code is 200", () async {
       setUpMockHttpClientSuccess200();
 
-      final result = await dataSource.getWithTextJokes(testTextSearch);
+      final result = await dataSource.getJokeBySearch(testTextSearch);
 
       expect(result, equals(testJokesModel));
     });
@@ -106,7 +106,7 @@ void main() {
             () async {
           setUpMockHttpClient404();
 
-          final call = dataSource.getWithTextJokes;
+          final call = dataSource.getJokeBySearch;
 
           expect(() => call(testTextSearch),
               throwsA(const TypeMatcher<ServerException>()));
@@ -114,7 +114,7 @@ void main() {
   });
 
   group('getRandomJokes', () {
-    final testJokesModel = JokesModel.fromJson(
+    final testJokesModel = JokeModel.fromJson(
         json.decode(fixtureReader('jokes_api_response.json')));
 
     test(
@@ -122,7 +122,7 @@ void main() {
             () async {
           setUpMockHttpClientSuccess200();
 
-          await dataSource.getRandomJokes();
+          await dataSource.getRandomJoke();
 
           verify(mockHttpClient.get(
               Uri.parse(
@@ -135,7 +135,7 @@ void main() {
     test("Should return Jokes when the response code is 200", () async {
       setUpMockHttpClientSuccess200();
 
-      final result = await dataSource.getRandomJokes();
+      final result = await dataSource.getRandomJoke();
 
       expect(result, equals(testJokesModel));
     });
@@ -145,7 +145,7 @@ void main() {
             () async {
           setUpMockHttpClient404();
 
-          final call = dataSource.getRandomJokes;
+          final call = dataSource.getRandomJoke;
 
           expect(() => call(),
               throwsA(const TypeMatcher<ServerException>()));

@@ -6,11 +6,11 @@
 import 'dart:async' as _i4;
 
 import 'package:chucknorris_jokes/core/network/network_info.dart' as _i6;
-import 'package:chucknorris_jokes/features/jokes/data/datasources/jokes_local_data_source.dart'
+import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart'
     as _i5;
-import 'package:chucknorris_jokes/features/jokes/data/datasources/jokes_remote_data_source.dart'
+import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_data_source.dart'
     as _i3;
-import 'package:chucknorris_jokes/features/jokes/data/models/jokes_model.dart'
+import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -27,8 +27,8 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeJokesModel_0 extends _i1.SmartFake implements _i2.JokesModel {
-  _FakeJokesModel_0(
+class _FakeJokeModel_0 extends _i1.SmartFake implements _i2.JokeModel {
+  _FakeJokeModel_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -37,105 +37,95 @@ class _FakeJokesModel_0 extends _i1.SmartFake implements _i2.JokesModel {
         );
 }
 
-/// A class which mocks [JokesRemoteDataSource].
+/// A class which mocks [JokeRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockJokesRemoteDataSource extends _i1.Mock
-    implements _i3.JokesRemoteDataSource {
+class MockJokeRemoteDataSource extends _i1.Mock
+    implements _i3.JokeRemoteDataSource {
   @override
-  _i4.Future<_i2.JokesModel> getRandomJokes() => (super.noSuchMethod(
+  _i4.Future<_i2.JokeModel> getRandomJoke() => (super.noSuchMethod(
         Invocation.method(
-          #getRandomJokes,
+          #getRandomJoke,
           [],
         ),
-        returnValue: _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+        returnValue: _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
-            #getRandomJokes,
+            #getRandomJoke,
             [],
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+            _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
-            #getRandomJokes,
+            #getRandomJoke,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.JokesModel>);
+      ) as _i4.Future<_i2.JokeModel>);
 
   @override
-  _i4.Future<List<String>> getCategories() => (super.noSuchMethod(
-        Invocation.method(
-          #getCategories,
-          [],
-        ),
-        returnValue: _i4.Future<List<String>>.value(<String>[]),
-        returnValueForMissingStub: _i4.Future<List<String>>.value(<String>[]),
-      ) as _i4.Future<List<String>>);
-
-  @override
-  _i4.Future<_i2.JokesModel> getRandomCategoryJokes(String? category) =>
+  _i4.Future<_i2.JokeModel> getJokesByCategory(String? category) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getRandomCategoryJokes,
+          #getJokesByCategory,
           [category],
         ),
-        returnValue: _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+        returnValue: _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
-            #getRandomCategoryJokes,
+            #getJokesByCategory,
             [category],
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+            _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
-            #getRandomCategoryJokes,
+            #getJokesByCategory,
             [category],
           ),
         )),
-      ) as _i4.Future<_i2.JokesModel>);
+      ) as _i4.Future<_i2.JokeModel>);
 
   @override
-  _i4.Future<_i2.JokesModel> getWithTextJokes(String? textSearch) =>
+  _i4.Future<_i2.JokeModel> getJokeBySearch(String? textSearch) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getWithTextJokes,
+          #getJokeBySearch,
           [textSearch],
         ),
-        returnValue: _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+        returnValue: _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
-            #getWithTextJokes,
+            #getJokeBySearch,
             [textSearch],
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+            _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
-            #getWithTextJokes,
+            #getJokeBySearch,
             [textSearch],
           ),
         )),
-      ) as _i4.Future<_i2.JokesModel>);
+      ) as _i4.Future<_i2.JokeModel>);
 }
 
-/// A class which mocks [JokesLocalDataSource].
+/// A class which mocks [JokeLocalDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockJokesLocalDataSource extends _i1.Mock
-    implements _i5.JokesLocalDataSource {
+class MockJokeLocalDataSource extends _i1.Mock
+    implements _i5.JokeLocalDataSource {
   @override
-  _i4.Future<_i2.JokesModel> getLastJoke() => (super.noSuchMethod(
+  _i4.Future<_i2.JokeModel> getLastJoke() => (super.noSuchMethod(
         Invocation.method(
           #getLastJoke,
           [],
         ),
-        returnValue: _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+        returnValue: _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
             #getLastJoke,
@@ -143,17 +133,17 @@ class MockJokesLocalDataSource extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.JokesModel>.value(_FakeJokesModel_0(
+            _i4.Future<_i2.JokeModel>.value(_FakeJokeModel_0(
           this,
           Invocation.method(
             #getLastJoke,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.JokesModel>);
+      ) as _i4.Future<_i2.JokeModel>);
 
   @override
-  _i4.Future<void> cacheJoke(_i2.JokesModel? jokesCache) => (super.noSuchMethod(
+  _i4.Future<void> cacheJoke(_i2.JokeModel? jokesCache) => (super.noSuchMethod(
         Invocation.method(
           #cacheJoke,
           [jokesCache],

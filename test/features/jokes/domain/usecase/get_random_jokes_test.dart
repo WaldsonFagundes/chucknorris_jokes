@@ -1,6 +1,6 @@
-import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/jokes_repository.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_jokes.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -8,23 +8,23 @@ import 'package:mockito/mockito.dart';
 
 import 'get_random_jokes_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<JokesRepository>()])
+@GenerateNiceMocks([MockSpec<JokeRepository>()])
 void main() {
-  late GetRandomJokes usecase;
-  late MockJokesRepository mockJokesRepository;
+  late GetRandomJoke usecase;
+  late MockJokeRepository mockJokesRepository;
 
   setUp(() {
-    mockJokesRepository = MockJokesRepository();
-    usecase = GetRandomJokes(mockJokesRepository);
+    mockJokesRepository = MockJokeRepository();
+    usecase = GetRandomJoke(mockJokesRepository);
   });
 
-  const testJokes = Jokes(jokeText: 'test_text');
+  const testJokes = Joke(jokeText: 'test_text');
 
   test("Should get joke from the repository", () async {
    when(mockJokesRepository.getRandomJokes())
         .thenAnswer((_) async => const Right(testJokes));
 
-    final result = await usecase(NoParamsRandom());
+    final result = await usecase(RandomNoParams());
 
     expect(result, const Right(testJokes));
     verify(mockJokesRepository.getRandomJokes());

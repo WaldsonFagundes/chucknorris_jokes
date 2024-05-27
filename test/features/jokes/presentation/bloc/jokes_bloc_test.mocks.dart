@@ -3,21 +3,25 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
-import 'package:chucknorris_jokes/core/error/failures.dart' as _i6;
-import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart'
-    as _i7;
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/jokes_repository.dart'
+import 'package:chucknorris_jokes/core/error/failures.dart' as _i7;
+import 'package:chucknorris_jokes/features/jokes/domain/entities/categories.dart'
+    as _i12;
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart'
+    as _i8;
+import 'package:chucknorris_jokes/features/jokes/domain/repositories/categories_repository.dart'
+    as _i4;
+import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart'
     as _i2;
 import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart'
-    as _i10;
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_category_jokes.dart'
-    as _i4;
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_jokes.dart'
+    as _i11;
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_category.dart'
+    as _i5;
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart'
     as _i9;
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_with_text_jokes.dart'
-    as _i8;
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart'
+    as _i10;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -34,9 +38,9 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeJokesRepository_0 extends _i1.SmartFake
-    implements _i2.JokesRepository {
-  _FakeJokesRepository_0(
+class _FakeJokeRepository_0 extends _i1.SmartFake
+    implements _i2.JokeRepository {
+  _FakeJokeRepository_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -55,34 +59,44 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
-/// A class which mocks [GetRandomCategoryJokes].
+class _FakeCategoriesRepository_2 extends _i1.SmartFake
+    implements _i4.CategoriesRepository {
+  _FakeCategoriesRepository_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [GetJokeByCategory].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetRandomCategoryJokes extends _i1.Mock
-    implements _i4.GetRandomCategoryJokes {
+class MockGetJokeByCategory extends _i1.Mock implements _i5.GetJokeByCategory {
   @override
-  _i2.JokesRepository get repository => (super.noSuchMethod(
+  _i2.JokeRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeJokesRepository_0(
+        returnValue: _FakeJokeRepository_0(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeJokesRepository_0(
+        returnValueForMissingStub: _FakeJokeRepository_0(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.JokesRepository);
+      ) as _i2.JokeRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>> call(
-          _i4.ParamsRandomCategory? params) =>
+  _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>> call(
+          _i5.CategoryParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Jokes>(
+        returnValue: _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Joke>(
           this,
           Invocation.method(
             #call,
@@ -90,36 +104,36 @@ class MockGetRandomCategoryJokes extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>.value(
-                _FakeEither_1<_i6.Failure, _i7.Jokes>(
+            _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>.value(
+                _FakeEither_1<_i7.Failure, _i8.Joke>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>);
+      ) as _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>);
 }
 
-/// A class which mocks [GetWithTextJokes].
+/// A class which mocks [GetJokeBySearch].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetWithTextJokes extends _i1.Mock implements _i8.GetWithTextJokes {
+class MockGetJokeBySearch extends _i1.Mock implements _i9.GetJokeBySearch {
   @override
-  _i2.JokesRepository get repository => (super.noSuchMethod(
+  _i2.JokeRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeJokesRepository_0(
+        returnValue: _FakeJokeRepository_0(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeJokesRepository_0(
+        returnValueForMissingStub: _FakeJokeRepository_0(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.JokesRepository);
+      ) as _i2.JokeRepository);
 
   @override
-  set repository(_i2.JokesRepository? _repository) => super.noSuchMethod(
+  set repository(_i2.JokeRepository? _repository) => super.noSuchMethod(
         Invocation.setter(
           #repository,
           _repository,
@@ -128,14 +142,15 @@ class MockGetWithTextJokes extends _i1.Mock implements _i8.GetWithTextJokes {
       );
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>> call(_i8.Params? params) =>
+  _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>> call(
+          _i9.SearchParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Jokes>(
+        returnValue: _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Joke>(
           this,
           Invocation.method(
             #call,
@@ -143,44 +158,44 @@ class MockGetWithTextJokes extends _i1.Mock implements _i8.GetWithTextJokes {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>.value(
-                _FakeEither_1<_i6.Failure, _i7.Jokes>(
+            _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>.value(
+                _FakeEither_1<_i7.Failure, _i8.Joke>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>);
+      ) as _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>);
 }
 
-/// A class which mocks [GetRandomJokes].
+/// A class which mocks [GetRandomJoke].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetRandomJokes extends _i1.Mock implements _i9.GetRandomJokes {
+class MockGetRandomJoke extends _i1.Mock implements _i10.GetRandomJoke {
   @override
-  _i2.JokesRepository get repository => (super.noSuchMethod(
+  _i2.JokeRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeJokesRepository_0(
+        returnValue: _FakeJokeRepository_0(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeJokesRepository_0(
+        returnValueForMissingStub: _FakeJokeRepository_0(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.JokesRepository);
+      ) as _i2.JokeRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>> call(
-          _i9.NoParamsRandom? params) =>
+  _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>> call(
+          _i10.RandomNoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>.value(
-            _FakeEither_1<_i6.Failure, _i7.Jokes>(
+        returnValue: _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>.value(
+            _FakeEither_1<_i7.Failure, _i8.Joke>(
           this,
           Invocation.method(
             #call,
@@ -188,44 +203,44 @@ class MockGetRandomJokes extends _i1.Mock implements _i9.GetRandomJokes {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>.value(
-                _FakeEither_1<_i6.Failure, _i7.Jokes>(
+            _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>.value(
+                _FakeEither_1<_i7.Failure, _i8.Joke>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Jokes>>);
+      ) as _i6.Future<_i3.Either<_i7.Failure, _i8.Joke>>);
 }
 
 /// A class which mocks [GetCategories].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetCategories extends _i1.Mock implements _i10.GetCategories {
+class MockGetCategories extends _i1.Mock implements _i11.GetCategories {
   @override
-  _i2.JokesRepository get repository => (super.noSuchMethod(
+  _i4.CategoriesRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeJokesRepository_0(
+        returnValue: _FakeCategoriesRepository_2(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeJokesRepository_0(
+        returnValueForMissingStub: _FakeCategoriesRepository_2(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.JokesRepository);
+      ) as _i4.CategoriesRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, List<String>>> call(
-          _i10.NoParams? params) =>
+  _i6.Future<_i3.Either<_i7.Failure, _i12.Categories>> call(
+          _i11.CategoriesNoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, List<String>>>.value(
-            _FakeEither_1<_i6.Failure, List<String>>(
+        returnValue: _i6.Future<_i3.Either<_i7.Failure, _i12.Categories>>.value(
+            _FakeEither_1<_i7.Failure, _i12.Categories>(
           this,
           Invocation.method(
             #call,
@@ -233,13 +248,13 @@ class MockGetCategories extends _i1.Mock implements _i10.GetCategories {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i3.Either<_i6.Failure, List<String>>>.value(
-                _FakeEither_1<_i6.Failure, List<String>>(
+            _i6.Future<_i3.Either<_i7.Failure, _i12.Categories>>.value(
+                _FakeEither_1<_i7.Failure, _i12.Categories>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, List<String>>>);
+      ) as _i6.Future<_i3.Either<_i7.Failure, _i12.Categories>>);
 }

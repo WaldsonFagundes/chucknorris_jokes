@@ -6,9 +6,9 @@
 import 'dart:async' as _i4;
 
 import 'package:chucknorris_jokes/core/error/failures.dart' as _i5;
-import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart'
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart'
     as _i6;
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/jokes_repository.dart'
+import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart'
     as _i3;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -36,45 +36,19 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
-/// A class which mocks [JokesRepository].
+/// A class which mocks [JokeRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockJokesRepository extends _i1.Mock implements _i3.JokesRepository {
+class MockJokeRepository extends _i1.Mock implements _i3.JokeRepository {
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<String>>> getCategories() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCategories,
-          [],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<String>>>.value(
-            _FakeEither_0<_i5.Failure, List<String>>(
-          this,
-          Invocation.method(
-            #getCategories,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, List<String>>>.value(
-                _FakeEither_0<_i5.Failure, List<String>>(
-          this,
-          Invocation.method(
-            #getCategories,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<String>>>);
-
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>> getRandomJokes() =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>> getRandomJokes() =>
       (super.noSuchMethod(
         Invocation.method(
           #getRandomJokes,
           [],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Jokes>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Joke>(
           this,
           Invocation.method(
             #getRandomJokes,
@@ -82,67 +56,66 @@ class MockJokesRepository extends _i1.Mock implements _i3.JokesRepository {
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Jokes>(
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Joke>(
           this,
           Invocation.method(
             #getRandomJokes,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>> getRandomCategoryJokes(
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>> getJokeByCategory(
           String? category) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getRandomCategoryJokes,
+          #getJokeByCategory,
           [category],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Jokes>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Joke>(
           this,
           Invocation.method(
-            #getRandomCategoryJokes,
+            #getJokeByCategory,
             [category],
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Jokes>(
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Joke>(
           this,
           Invocation.method(
-            #getRandomCategoryJokes,
+            #getJokeByCategory,
             [category],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>> getWithTextJokes(
-          String? text) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>> getJokeBySearch(String? text) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getWithTextJokes,
+          #getJokeBySearch,
           [text],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Jokes>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Joke>(
           this,
           Invocation.method(
-            #getWithTextJokes,
+            #getJokeBySearch,
             [text],
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Jokes>(
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Joke>(
           this,
           Invocation.method(
-            #getWithTextJokes,
+            #getJokeBySearch,
             [text],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Jokes>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Joke>>);
 }

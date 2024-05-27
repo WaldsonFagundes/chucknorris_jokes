@@ -1,6 +1,6 @@
-import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/jokes_repository.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_with_text_jokes.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -8,24 +8,24 @@ import 'package:mockito/mockito.dart';
 
 import 'get_with_text_jokes_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<JokesRepository>()])
+@GenerateNiceMocks([MockSpec<JokeRepository>()])
 void main() {
-  late MockJokesRepository mockJokesRepository;
-  late GetWithTextJokes usecase;
+  late MockJokeRepository mockJokesRepository;
+  late GetJokeBySearch usecase;
 
   setUp(() {
-    mockJokesRepository = MockJokesRepository();
-    usecase = GetWithTextJokes(mockJokesRepository);
+    mockJokesRepository = MockJokeRepository();
+    usecase = GetJokeBySearch(mockJokesRepository);
   });
 
   const testJoke =
-      Jokes(jokeText: 'test_text');
+      Joke(jokeText: 'test_text');
 
   test("Should get joke for the text from repository", () async {
-    when(mockJokesRepository.getWithTextJokes(any))
+    when(mockJokesRepository.getJokeBySearch(any))
         .thenAnswer((_) async => const Right(testJoke));
 
-    final result = await usecase.call(Params(text: 'any'));
+    final result = await usecase.call(const SearchParams(text: 'any'));
 
     expect(result, const Right(testJoke));
   });

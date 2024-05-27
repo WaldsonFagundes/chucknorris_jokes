@@ -1,6 +1,6 @@
-import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/jokes_repository.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_category_jokes.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_category.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -8,25 +8,25 @@ import 'package:mockito/annotations.dart';
 
 import 'get_random_category_jokes_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<JokesRepository>()])
+@GenerateNiceMocks([MockSpec<JokeRepository>()])
 
 
 void main() {
-  late MockJokesRepository mockJokesRepository;
-  late GetRandomCategoryJokes usecase;
+  late MockJokeRepository mockJokesRepository;
+  late GetJokeByCategory usecase;
 
   setUp(() {
-    mockJokesRepository = MockJokesRepository();
-    usecase = GetRandomCategoryJokes(mockJokesRepository);
+    mockJokesRepository = MockJokeRepository();
+    usecase = GetJokeByCategory(mockJokesRepository);
   });
 
-  const testJokes = Jokes(jokeText: 'test_text');
+  const testJokes = Joke(jokeText: 'test_text');
 
   test("Should get joke for the category from repository", () async {
-    when(mockJokesRepository.getRandomCategoryJokes(any))
+    when(mockJokesRepository.getJokeByCategory(any))
         .thenAnswer((_) async => const Right(testJokes));
 
-    final result = await usecase(const ParamsRandomCategory(category: 'any'));
+    final result = await usecase(const CategoryParams(category: 'any'));
 
     expect(result, const Right(testJokes));
 

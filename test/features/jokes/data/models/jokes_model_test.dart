@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:chucknorris_jokes/features/jokes/data/models/jokes_model.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/jokes.dart';
+import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  const testJokesModel = JokesModel(jokeText: 'Test text');
+  const testJokesModel = JokeModel(jokeText: 'Test text');
 
   test("Should be a subclass of NumberTrivia entity", () {
-    expect(testJokesModel, isA<Jokes>());
+    expect(testJokesModel, isA<Joke>());
   });
 
   group('fromJson', () {
@@ -18,7 +18,7 @@ void main() {
       final Map<String, dynamic> jsonMap =
           json.decode(fixtureReader('jokes_api_response.json'));
 
-      final result = JokesModel.fromJson(jsonMap);
+      final result = JokeModel.fromJson(jsonMap);
 
       expect(result, testJokesModel);
     });

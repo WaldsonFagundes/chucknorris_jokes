@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:chucknorris_jokes/core/error/execeptions.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/jokes_local_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/models/jokes_model.dart';
+import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart';
+import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -13,17 +13,17 @@ import 'jokes_local_data_source_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<SharedPreferences>()])
 void main() {
-  late JokesLocalDataSourceImpl dataSource;
+  late JokeLocalDataSourceImpl dataSource;
   late MockSharedPreferences mockSharedPreferences;
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
     dataSource =
-        JokesLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
+        JokeLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
   });
 
   group('getLastJoke', () {
-    final testJokesModel = JokesModel.fromJson(
+    final testJokesModel = JokeModel.fromJson(
         json.decode(fixtureReader('jokes_api_response.json')));
 
     test(
@@ -48,7 +48,7 @@ void main() {
   });
 
   group('cacheJokes',(){
-    const testJokesModel = JokesModel(jokeText: 'test text');
+    const testJokesModel = JokeModel(jokeText: 'test text');
 
      test ("Should call SharedPreferences to cache the data", () async {
        dataSource.cacheJoke(testJokesModel);
