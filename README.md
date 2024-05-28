@@ -1,6 +1,7 @@
 # Chuck Norris Jokes App
 
-![Chuck Norris Jokes](https://github.com/WaldsonFagundes/chucknorris_jokes/blob/main/assets/img.png)
+<img src="https://github.com/WaldsonFagundes/chucknorris_jokes/raw/main/assets/img.png" alt="Chuck Norris Jokes" width="400"/>
+
 
 ## Descrição
 
