@@ -37,7 +37,7 @@ void main() {
 
       final result = await dataSource.getLastJoke();
 
-      verify(mockSharedPreferences.getString('CACHED_JOKES'));
+      verify(mockSharedPreferences.getString('CACHED_JOKE'));
       expect(result, equals(testJokesModel));
     });
     test("Should throw a CacheException when there is not a cached value",
@@ -59,7 +59,7 @@ void main() {
       final expectedJsonString = json.encode(testJokesModel.toJson());
 
       verify(
-          mockSharedPreferences.setString('CACHED_JOKES', expectedJsonString));
+          mockSharedPreferences.setString('CACHED_JOKE', expectedJsonString));
     });
   });
 }

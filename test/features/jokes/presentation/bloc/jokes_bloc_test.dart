@@ -5,15 +5,8 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 // Project imports:
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_category.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_bloc.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_event.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_state.dart';
+import 'package:chucknorris_jokes/core/core_e.dart';
+import 'package:chucknorris_jokes/features/jokes/jokes_e.dart';
 import 'jokes_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<GetJokeByCategory>()])
@@ -82,7 +75,7 @@ void main() {
       final expected = [
         JokeInitialState(),
         JokeLoading(),
-        const JokeError(message: SERVER_FAILURE_MESSAGE)
+        const JokeError(message: serverFailureMessage)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
@@ -99,7 +92,7 @@ void main() {
       final expected = [
         JokeInitialState(),
         JokeLoading(),
-        const JokeError(message: CACHE_FAILURE_MESSAGE)
+        const JokeError(message: cacheFailureMessage)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
@@ -147,7 +140,7 @@ void main() {
       final expected = [
         JokeInitialState(),
         JokeLoading(),
-        const JokeError(message: SERVER_FAILURE_MESSAGE)
+        const JokeError(message: serverFailureMessage)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
@@ -164,7 +157,7 @@ void main() {
       final expected = [
         JokeInitialState(),
         JokeLoading(),
-        const JokeError(message: CACHE_FAILURE_MESSAGE)
+        const JokeError(message: cacheFailureMessage)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
@@ -206,7 +199,7 @@ void main() {
       final expected = [
         JokeInitialState(),
         JokeLoading(),
-        const JokeError(message: SERVER_FAILURE_MESSAGE)
+        const JokeError(message: serverFailureMessage)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));
@@ -223,7 +216,7 @@ void main() {
       final expected = [
         JokeInitialState(),
         JokeLoading(),
-        const JokeError(message: CACHE_FAILURE_MESSAGE)
+        const JokeError(message: cacheFailureMessage)
       ];
 
       expectLater(bloc.stream, emitsInOrder(expected));

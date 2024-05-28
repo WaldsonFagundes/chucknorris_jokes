@@ -83,7 +83,9 @@ void main() {
     test(
         "Should perform a Get request on a URL with textCategory being the endpoint and with application/json header",
         () async {
-      setUpMockHttpClientSuccess200();
+      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              fixtureReader('jokes_api_response_search.json'), 200));
 
       await dataSource.getJokeBySearch(testTextSearch);
 
@@ -96,7 +98,9 @@ void main() {
     });
 
     test("Should return Jokes when the response code is 200", () async {
-      setUpMockHttpClientSuccess200();
+      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              fixtureReader('jokes_api_response_search.json'), 200));
 
       final result = await dataSource.getJokeBySearch(testTextSearch);
 

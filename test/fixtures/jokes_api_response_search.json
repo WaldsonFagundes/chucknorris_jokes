@@ -1,0 +1,25 @@
+{
+  "total": 2,
+  "result": [
+    {
+      "categories": [],
+      "created_at": "2020-01-05 13:42:28.664997",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "ddVHUPRmQ_2ysCuyTRgZFw",
+      "updated_at": "2020-01-05 13:42:28.664997",
+      "url": "https://api.chucknorris.io/jokes/ddVHUPRmQ_2ysCuyTRgZFw",
+      "value": "Test text"
+    },
+    {
+      "categories": [
+        "money"
+      ],
+      "created_at": "2020-01-05 13:42:25.905626",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "fzUIecpIQby60LGwbzthhw",
+      "updated_at": "2020-05-22 06:16:41.133769",
+      "url": "https://api.chucknorris.io/jokes/fzUIecpIQby60LGwbzthhw",
+      "value": "Steven Seagal now looks like a beached whale because he put his money on junk food instead of Chuck Norris total-gym."
+    }
+  ]
+}
