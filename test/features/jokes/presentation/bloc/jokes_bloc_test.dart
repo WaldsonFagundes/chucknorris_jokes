@@ -1,18 +1,19 @@
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_category.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_bloc.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_event.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_state.dart';
-
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+// Project imports:
+import 'package:chucknorris_jokes/core/error/failures.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_category.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart';
+import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_bloc.dart';
+import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_event.dart';
+import 'package:chucknorris_jokes/features/jokes/presentation/blocs/joke_bloc/joke_state.dart';
 import 'jokes_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<GetJokeByCategory>()])
@@ -20,9 +21,6 @@ import 'jokes_bloc_test.mocks.dart';
 @GenerateNiceMocks([MockSpec<GetRandomJoke>()])
 @GenerateNiceMocks([MockSpec<GetCategories>()])
 void main() {
-  
-  
-  
   late MockGetJokeByCategory mockGetRandomCategoryJokes;
   late MockGetJokeBySearch mockGetWithTextJokes;
   late MockGetRandomJoke mockGetRandomJokes;
@@ -176,11 +174,9 @@ void main() {
   });
 
   group('GetRandomJokes', () {
-
     const testJokes = Joke(jokeText: 'Test joke');
 
     test("Should get data from the random use case", () async {
-
       when(mockGetRandomJokes(any))
           .thenAnswer((_) async => const Right(testJokes));
 
@@ -189,19 +185,20 @@ void main() {
       await untilCalled(mockGetRandomJokes(any));
     });
 
-     test ("Should emit [Loading, Loaded] when data is gotten successfully", ()async {
-       when(mockGetRandomJokes(any))
-           .thenAnswer((_) async => const Right(testJokes));
+    test("Should emit [Loading, Loaded] when data is gotten successfully",
+        () async {
+      when(mockGetRandomJokes(any))
+          .thenAnswer((_) async => const Right(testJokes));
 
-       final expected = [
-         JokeInitialState(),
-         JokeLoading(),
-         const JokeLoaded(jokes: testJokes),
-       ];
-       expectLater(bloc.stream, emitsInOrder(expected));
+      final expected = [
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeLoaded(jokes: testJokes),
+      ];
+      expectLater(bloc.stream, emitsInOrder(expected));
 
-       bloc.add(FetchRandomJoke());
-         });
+      bloc.add(FetchRandomJoke());
+    });
     test("Should emit [Loading, Error] when getting data fails", () async {
       when(mockGetRandomJokes(any))
           .thenAnswer((_) async => Left(ServerFailure()));
@@ -219,20 +216,19 @@ void main() {
 
     test(
         "Should emit [Loading, Error] when a proper message for the error when getting data",
-            () async {
-          when(mockGetRandomJokes(any))
-              .thenAnswer((_) async => Left(CacheFailure()));
+        () async {
+      when(mockGetRandomJokes(any))
+          .thenAnswer((_) async => Left(CacheFailure()));
 
-          final expected = [
-            JokeInitialState(),
-            JokeLoading(),
-            const JokeError(message: CACHE_FAILURE_MESSAGE)
-          ];
+      final expected = [
+        JokeInitialState(),
+        JokeLoading(),
+        const JokeError(message: CACHE_FAILURE_MESSAGE)
+      ];
 
-          expectLater(bloc.stream, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
 
-          bloc.add( FetchRandomJoke());
-        });
-
+      bloc.add(FetchRandomJoke());
+    });
   });
 }

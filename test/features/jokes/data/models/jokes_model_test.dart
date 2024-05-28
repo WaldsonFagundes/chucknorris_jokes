@@ -1,9 +1,12 @@
+// Dart imports:
 import 'dart:convert';
 
-import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 
+// Project imports:
+import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {

@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:convert';
 
-import 'package:chucknorris_jokes/core/error/execeptions.dart';
-import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
+// Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../models/models_e.dart';
 
 abstract class JokeLocalDataSource {
   Future<JokeModel> getLastJoke();

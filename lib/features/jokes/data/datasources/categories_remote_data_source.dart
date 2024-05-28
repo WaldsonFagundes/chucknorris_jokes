@@ -1,9 +1,12 @@
+// Dart imports:
 import 'dart:convert';
 
-import 'package:chucknorris_jokes/features/jokes/data/models/categories_model.dart';
+// Package imports:
 import 'package:http/http.dart' as http;
 
-import '../../../../core/error/execeptions.dart';
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../models/models_e.dart';
 
 abstract class CategoriesRemoteDataSource {
   /// Calls the https://api.chucknorris.io/jokes/categories endpoint.
@@ -25,7 +28,7 @@ class CategoriesRemoteDataSourceImpl implements CategoriesRemoteDataSource {
           'Content-Type': 'application/json',
         });
     if (response.statusCode == 200) {
-     return CategoriesModel.fromJson(jsonDecode(response.body));
+      return CategoriesModel.fromJson(jsonDecode(response.body));
     } else {
       throw ServerException();
     }

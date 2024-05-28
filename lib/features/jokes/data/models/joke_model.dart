@@ -1,4 +1,5 @@
-import '../../domain/entities/joke.dart';
+// Project imports:
+import '../../domain/domain_e.dart';
 
 class JokeModel extends Joke {
   const JokeModel({

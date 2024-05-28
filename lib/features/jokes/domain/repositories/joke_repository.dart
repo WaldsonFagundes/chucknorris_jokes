@@ -1,11 +1,12 @@
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+// Package imports:
 import 'package:dartz/dartz.dart';
 
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../entities/entities_e.dart';
+
 abstract class JokeRepository {
-
-Future<Either<Failure, Joke>> getRandomJokes();
-Future<Either<Failure, Joke>> getJokeByCategory(String category);
-Future<Either<Failure, Joke>> getJokeBySearch(String text);
-
+  Future<Either<Failure, Joke>> getRandomJokes();
+  Future<Either<Failure, Joke>> getJokeByCategory(String category);
+  Future<Either<Failure, Joke>> getJokeBySearch(String text);
 }

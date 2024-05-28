@@ -1,6 +1,8 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/joke.dart';
+// Project imports:
+import '../../../domain/entities/entities_e.dart';
 
 abstract class JokeState extends Equatable {
   const JokeState();

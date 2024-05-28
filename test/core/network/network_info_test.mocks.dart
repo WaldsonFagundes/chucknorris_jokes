@@ -3,11 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:async' as _i3;
+
+// Package imports:
+import 'package:mockito/mockito.dart' as _i1;
 
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i2;
-import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

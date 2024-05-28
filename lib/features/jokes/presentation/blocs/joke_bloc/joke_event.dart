@@ -14,7 +14,4 @@ class FetchJokeBySearch extends JokeEvent {
   const FetchJokeBySearch(this.textSearch);
 }
 
-class FetchRandomJoke extends JokeEvent {
-
-}
-
+class FetchRandomJoke extends JokeEvent {}

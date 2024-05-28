@@ -1,22 +1,12 @@
-import 'package:chucknorris_jokes/core/network/network_info.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/categories_remote_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/repositories/categories_repository_impl.dart';
-import 'package:chucknorris_jokes/features/jokes/data/repositories/joke_repository_impl.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/categories_repository.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_category.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/categories_bloc/categories_bloc.dart';
+// Package imports:
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'features/jokes/presentation/blocs/joke_bloc/joke_bloc.dart';
+// Project imports:
+import 'core/core_e.dart';
+import 'features/jokes/jokes_e.dart';
 
 final sl = GetIt.instance;
 

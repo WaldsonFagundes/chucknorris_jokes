@@ -53,6 +53,8 @@ dev_dependencies:
   mockito: ^5.4.4
   build_runner: ^2.4.9
   faker: ^2.1.0
+  #flutter pub run import_sorter:main
+  import_sorter: ^4.6.0
 
 
 flutter:

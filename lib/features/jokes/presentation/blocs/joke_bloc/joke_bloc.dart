@@ -1,18 +1,12 @@
+// Package imports:
 import 'package:bloc/bloc.dart';
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_categories.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
 import 'package:dartz/dartz.dart';
 
-import '../../../domain/entities/joke.dart';
-import '../../../domain/usecases/get_joke_by_category.dart';
-import 'joke_event.dart';
-import 'joke_state.dart';
-
-const String SERVER_FAILURE_MESSAGE = 'Server Failure';
-const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
-const String INVALID_CATEGORY_FAILURE_MESSAGE = 'Invalid category';
+// Project imports:
+import '../../../../../core/core_e.dart';
+import '../../../domain/entities/entities_e.dart';
+import '../../../domain/usecases/usecases_e.dart';
+import 'joke_bloc_e.dart';
 
 class JokeBloc extends Bloc<JokeEvent, JokeState> {
   final GetJokeByCategory getJokeByCategory;
@@ -24,28 +18,24 @@ class JokeBloc extends Bloc<JokeEvent, JokeState> {
     required this.getJokeBySearch,
     required this.getRandomJoke,
   }) : super(JokeInitialState()) {
-
     on<JokeEvent>((event, emit) async {
-
       if (event is FetchJokeByCategory) {
         emit(JokeInitialState());
         emit(JokeLoading());
-        final failureOrJoke = await getJokeByCategory(
-            CategoryParams(category: event.category));
+        final failureOrJoke =
+            await getJokeByCategory(CategoryParams(category: event.category));
         await _eitherLoadedOrErrorState(failureOrJoke, emit);
-
       } else if (event is FetchJokeBySearch) {
         emit(JokeInitialState());
         emit(JokeLoading());
-        final failureOrJoke = await getJokeBySearch(SearchParams(text: event.textSearch));
+        final failureOrJoke =
+            await getJokeBySearch(SearchParams(text: event.textSearch));
         await _eitherLoadedOrErrorState(failureOrJoke, emit);
-
       } else if (event is FetchRandomJoke) {
         emit(JokeInitialState());
         emit(JokeLoading());
         final failureOrJoke = await getRandomJoke(RandomNoParams());
         await _eitherLoadedOrErrorState(failureOrJoke, emit);
-
       }
     });
   }
@@ -61,9 +51,9 @@ Future<void> _eitherLoadedOrErrorState(
 String _mapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {
     case ServerFailure:
-      return SERVER_FAILURE_MESSAGE;
+      return serverFailureMessage;
     case CacheFailure:
-      return CACHE_FAILURE_MESSAGE;
+      return cacheFailureMessage;
     default:
       return 'Unexpected error';
   }

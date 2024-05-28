@@ -1,5 +1,8 @@
-import 'package:chucknorris_jokes/features/jokes/presentation/page/jokes_page.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'features/jokes/presentation/page/page_e.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -16,8 +19,6 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Number Trivia',
       home: JokesPage(),
-
     );
   }
 }
-

@@ -1,13 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/categories_bloc/categories_event.dart';
-import '../blocs/categories_bloc/categories_bloc.dart';
-import '../blocs/categories_bloc/categories_state.dart';
-import '../blocs/joke_bloc/joke_bloc.dart';
-import '../blocs/joke_bloc/joke_event.dart';
-import 'loading_widget.dart';
+// Project imports:
+import '../blocs/blocs_e.dart';
 
 class JokesControls extends StatefulWidget {
   const JokesControls({super.key});

@@ -1,4 +1,11 @@
-import 'package:chucknorris_jokes/core/error/execeptions.dart';
+// Package imports:
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+// Project imports:
+import 'package:chucknorris_jokes/core/error/exceptions.dart';
 import 'package:chucknorris_jokes/core/error/failures.dart';
 import 'package:chucknorris_jokes/core/network/network_info.dart';
 import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart';
@@ -6,11 +13,6 @@ import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_da
 import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
 import 'package:chucknorris_jokes/features/jokes/data/repositories/joke_repository_impl.dart';
 import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
-import 'package:dartz/dartz.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-
 import 'jokes_repository_impl_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<JokeRemoteDataSource>()])
@@ -129,65 +131,65 @@ void main() {
     runTestsOnline(() {
       test(
           "Should return remote data WHEN the call to remote data is successfull ",
-              () async {
-            when(mockRemoteDataSource.getJokeBySearch(any))
-                .thenAnswer((_) async => testJokeModel);
+          () async {
+        when(mockRemoteDataSource.getJokeBySearch(any))
+            .thenAnswer((_) async => testJokeModel);
 
-            final result = await repository.getJokeBySearch(testTextSearch);
+        final result = await repository.getJokeBySearch(testTextSearch);
 
-            verify(mockRemoteDataSource.getJokeBySearch(testTextSearch));
-            expect(result, equals(const Right(testJoke)));
-          });
+        verify(mockRemoteDataSource.getJokeBySearch(testTextSearch));
+        expect(result, equals(const Right(testJoke)));
+      });
 
       test(
           "Should cache the data locally when the call to remote data source is successfull ",
-              () async {
-            when(mockRemoteDataSource.getJokeBySearch(any))
-                .thenAnswer((_) async => testJokeModel);
+          () async {
+        when(mockRemoteDataSource.getJokeBySearch(any))
+            .thenAnswer((_) async => testJokeModel);
 
-            await repository.getJokeBySearch(testTextSearch);
+        await repository.getJokeBySearch(testTextSearch);
 
-            verify(mockRemoteDataSource.getJokeBySearch(testTextSearch));
-            verify(mockLocalDataSource.cacheJoke(testJokeModel));
-          });
+        verify(mockRemoteDataSource.getJokeBySearch(testTextSearch));
+        verify(mockLocalDataSource.cacheJoke(testJokeModel));
+      });
 
       test(
           "Should return server failure when the call to remote data source is unsuccessful ",
-              () async {
-            when(mockRemoteDataSource.getJokeBySearch(any))
-                .thenThrow(ServerException());
+          () async {
+        when(mockRemoteDataSource.getJokeBySearch(any))
+            .thenThrow(ServerException());
 
-            final result = await repository.getJokeBySearch(testTextSearch);
+        final result = await repository.getJokeBySearch(testTextSearch);
 
-            verify(mockRemoteDataSource.getJokeBySearch(testTextSearch));
-            verifyZeroInteractions(mockLocalDataSource);
-            expect(result, equals(Left(ServerFailure())));
-          });
+        verify(mockRemoteDataSource.getJokeBySearch(testTextSearch));
+        verifyZeroInteractions(mockLocalDataSource);
+        expect(result, equals(Left(ServerFailure())));
+      });
     });
     runTestOffline(() {
       test(
           "Should return last locally cached data when the cached data is present",
-              () async {
-            when(mockLocalDataSource.getLastJoke())
-                .thenAnswer((_) async => testJokeModel);
+          () async {
+        when(mockLocalDataSource.getLastJoke())
+            .thenAnswer((_) async => testJokeModel);
 
-            final result = await repository.getJokeBySearch(testTextSearch);
+        final result = await repository.getJokeBySearch(testTextSearch);
 
-            verifyZeroInteractions(mockRemoteDataSource);
-            verify(mockLocalDataSource.getLastJoke());
-            expect(result, equals(const Right(testJoke)));
-          });
+        verifyZeroInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource.getLastJoke());
+        expect(result, equals(const Right(testJoke)));
+      });
 
       test("Should return CacheFailure When there is no cached data present",
-              () async {
-            when(mockLocalDataSource.getLastJoke()).thenThrow(CacheException());
+          () async {
+        when(mockLocalDataSource.getLastJoke()).thenThrow(CacheException());
 
-            final result = await repository.getJokeBySearch(testTextSearch);
+        final result = await repository.getJokeBySearch(testTextSearch);
 
-            verifyZeroInteractions(mockRemoteDataSource);
-            verify(mockLocalDataSource.getLastJoke());
-            expect(result, equals(left(CacheFailure())));
-          });
+        verifyZeroInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource.getLastJoke());
+        expect(result, equals(left(CacheFailure())));
+      });
     });
   });
   group('getRandomJokes', () {
@@ -197,65 +199,64 @@ void main() {
     runTestsOnline(() {
       test(
           "Should return remote data WHEN the call to remote data is successfull ",
-              () async {
-            when(mockRemoteDataSource.getRandomJoke())
-                .thenAnswer((_) async => testJokeModel);
+          () async {
+        when(mockRemoteDataSource.getRandomJoke())
+            .thenAnswer((_) async => testJokeModel);
 
-            final result = await repository.getRandomJokes();
+        final result = await repository.getRandomJokes();
 
-            verify(mockRemoteDataSource.getRandomJoke());
-            expect(result, equals(const Right(testJoke)));
-          });
+        verify(mockRemoteDataSource.getRandomJoke());
+        expect(result, equals(const Right(testJoke)));
+      });
 
       test(
           "Should cache the data locally when the call to remote data source is successfull ",
-              () async {
-            when(mockRemoteDataSource.getRandomJoke())
-                .thenAnswer((_) async => testJokeModel);
+          () async {
+        when(mockRemoteDataSource.getRandomJoke())
+            .thenAnswer((_) async => testJokeModel);
 
-            await repository.getRandomJokes();
+        await repository.getRandomJokes();
 
-            verify(mockRemoteDataSource.getRandomJoke());
-            verify(mockLocalDataSource.cacheJoke(testJokeModel));
-          });
+        verify(mockRemoteDataSource.getRandomJoke());
+        verify(mockLocalDataSource.cacheJoke(testJokeModel));
+      });
 
       test(
           "Should return server failure when the call to remote data source is unsuccessful ",
-              () async {
-            when(mockRemoteDataSource.getRandomJoke())
-                .thenThrow(ServerException());
+          () async {
+        when(mockRemoteDataSource.getRandomJoke()).thenThrow(ServerException());
 
-            final result = await repository.getRandomJokes();
+        final result = await repository.getRandomJokes();
 
-            verify(mockRemoteDataSource.getRandomJoke());
-            verifyZeroInteractions(mockLocalDataSource);
-            expect(result, equals(Left(ServerFailure())));
-          });
+        verify(mockRemoteDataSource.getRandomJoke());
+        verifyZeroInteractions(mockLocalDataSource);
+        expect(result, equals(Left(ServerFailure())));
+      });
     });
     runTestOffline(() {
       test(
           "Should return last locally cached data when the cached data is present",
-              () async {
-            when(mockLocalDataSource.getLastJoke())
-                .thenAnswer((_) async => testJokeModel);
+          () async {
+        when(mockLocalDataSource.getLastJoke())
+            .thenAnswer((_) async => testJokeModel);
 
-            final result = await repository.getRandomJokes();
+        final result = await repository.getRandomJokes();
 
-            verifyZeroInteractions(mockRemoteDataSource);
-            verify(mockLocalDataSource.getLastJoke());
-            expect(result, equals(const Right(testJoke)));
-          });
+        verifyZeroInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource.getLastJoke());
+        expect(result, equals(const Right(testJoke)));
+      });
 
       test("Should return CacheFailure When there is no cached data present",
-              () async {
-            when(mockLocalDataSource.getLastJoke()).thenThrow(CacheException());
+          () async {
+        when(mockLocalDataSource.getLastJoke()).thenThrow(CacheException());
 
-            final result = await repository.getRandomJokes();
+        final result = await repository.getRandomJokes();
 
-            verifyZeroInteractions(mockRemoteDataSource);
-            verify(mockLocalDataSource.getLastJoke());
-            expect(result, equals(left(CacheFailure())));
-          });
+        verifyZeroInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource.getLastJoke());
+        expect(result, equals(left(CacheFailure())));
+      });
     });
   });
 }

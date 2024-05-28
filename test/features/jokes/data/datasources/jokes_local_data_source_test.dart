@@ -1,13 +1,16 @@
+// Dart imports:
 import 'dart:convert';
 
-import 'package:chucknorris_jokes/core/error/execeptions.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Project imports:
+import 'package:chucknorris_jokes/core/error/exceptions.dart';
+import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart';
+import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
 import '../../../../fixtures/fixture_reader.dart';
 import 'jokes_local_data_source_test.mocks.dart';
 
@@ -47,18 +50,16 @@ void main() {
     });
   });
 
-  group('cacheJokes',(){
+  group('cacheJokes', () {
     const testJokesModel = JokeModel(jokeText: 'test text');
 
-     test ("Should call SharedPreferences to cache the data", () async {
-       dataSource.cacheJoke(testJokesModel);
+    test("Should call SharedPreferences to cache the data", () async {
+      dataSource.cacheJoke(testJokesModel);
 
-       final expectedJsonString = json.encode(testJokesModel.toJson());
+      final expectedJsonString = json.encode(testJokesModel.toJson());
 
-       verify(mockSharedPreferences.setString('CACHED_JOKES', expectedJsonString));
-
-         });
-
-
+      verify(
+          mockSharedPreferences.setString('CACHED_JOKES', expectedJsonString));
+    });
   });
 }

@@ -1,10 +1,11 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../entities/joke.dart';
-import '../repositories/joke_repository.dart';
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../entities/entities_e.dart';
+import '../repositories/repositories_e.dart';
 
 class GetJokeBySearch implements UseCase<Joke, SearchParams> {
   late JokeRepository repository;
@@ -17,7 +18,7 @@ class GetJokeBySearch implements UseCase<Joke, SearchParams> {
   }
 }
 
-class SearchParams  extends Equatable{
+class SearchParams extends Equatable {
   final String text;
 
   const SearchParams({required this.text});

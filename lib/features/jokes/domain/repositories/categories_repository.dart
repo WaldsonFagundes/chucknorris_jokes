@@ -1,7 +1,9 @@
-import 'package:chucknorris_jokes/features/jokes/domain/entities/categories.dart';
+// Package imports:
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/error/failures.dart';
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../entities/entities_e.dart';
 
 abstract class CategoriesRepository {
   Future<Either<Failure, Categories>> getCategories();

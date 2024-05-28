@@ -1,7 +1,12 @@
+// Dart imports:
 import 'dart:convert';
-import 'package:chucknorris_jokes/core/error/execeptions.dart';
-import '../models/joke_model.dart';
+
+// Package imports:
 import 'package:http/http.dart' as http;
+
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../models/models_e.dart';
 
 abstract class JokeRemoteDataSource {
   /// Calls the https://api.chucknorris.io/jokes/random endpoint.

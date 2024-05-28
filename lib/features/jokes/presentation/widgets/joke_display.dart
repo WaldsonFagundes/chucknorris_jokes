@@ -1,6 +1,8 @@
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import '../../domain/entities/entities_e.dart';
 
 class JokeDisplay extends StatelessWidget {
   final Joke jokes;
@@ -12,7 +14,7 @@ class JokeDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height / 3,
       child: Column(
         children: [

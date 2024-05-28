@@ -1,13 +1,10 @@
+// Package imports:
 import 'package:bloc/bloc.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/categories_bloc/categories_event.dart';
-import 'package:chucknorris_jokes/features/jokes/presentation/blocs/categories_bloc/categories_state.dart';
 
-import '../../../../../core/error/failures.dart';
-import '../../../domain/usecases/get_categories.dart';
-
-const String SERVER_FAILURE_MESSAGE = 'Server Failure';
-const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
-const String INVALID_CATEGORY_FAILURE_MESSAGE = 'Invalid category';
+// Project imports:
+import '../../../../../core/core_e.dart';
+import '../../../domain/usecases/usecases_e.dart';
+import 'categories_bloc_e.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final GetCategories getCategories;
@@ -32,9 +29,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 String _mapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {
     case ServerFailure:
-      return SERVER_FAILURE_MESSAGE;
+      return serverFailureMessage;
     case CacheFailure:
-      return CACHE_FAILURE_MESSAGE;
+      return cacheFailureMessage;
     default:
       return 'Unexpected error';
   }

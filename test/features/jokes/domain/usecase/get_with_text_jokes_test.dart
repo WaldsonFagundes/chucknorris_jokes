@@ -1,11 +1,13 @@
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+// Project imports:
+import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
+import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_search.dart';
 import 'get_with_text_jokes_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<JokeRepository>()])
@@ -18,8 +20,7 @@ void main() {
     usecase = GetJokeBySearch(mockJokesRepository);
   });
 
-  const testJoke =
-      Joke(jokeText: 'test_text');
+  const testJoke = Joke(jokeText: 'test_text');
 
   test("Should get joke for the text from repository", () async {
     when(mockJokesRepository.getJokeBySearch(any))

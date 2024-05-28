@@ -1,13 +1,16 @@
+// Dart imports:
 import 'dart:convert';
 
-import 'package:chucknorris_jokes/core/error/execeptions.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+// Project imports:
+import 'package:chucknorris_jokes/core/error/exceptions.dart';
+import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_data_source.dart';
+import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
 import '../../../../fixtures/fixture_reader.dart';
 import 'jokes_remote_data_source_test.mocks.dart';
 
@@ -72,7 +75,6 @@ void main() {
     });
   });
 
-
   group('getWithTextJokes', () {
     const testTextSearch = 'anything';
     final testJokesModel = JokeModel.fromJson(
@@ -80,18 +82,18 @@ void main() {
 
     test(
         "Should perform a Get request on a URL with textCategory being the endpoint and with application/json header",
-            () async {
-          setUpMockHttpClientSuccess200();
+        () async {
+      setUpMockHttpClientSuccess200();
 
-          await dataSource.getJokeBySearch(testTextSearch);
+      await dataSource.getJokeBySearch(testTextSearch);
 
-          verify(mockHttpClient.get(
-              Uri.parse(
-                  'https://api.chucknorris.io/jokes/search?query=$testTextSearch'),
-              headers: {
-                'Content-Type': 'application/json',
-              }));
-        });
+      verify(mockHttpClient.get(
+          Uri.parse(
+              'https://api.chucknorris.io/jokes/search?query=$testTextSearch'),
+          headers: {
+            'Content-Type': 'application/json',
+          }));
+    });
 
     test("Should return Jokes when the response code is 200", () async {
       setUpMockHttpClientSuccess200();
@@ -103,14 +105,14 @@ void main() {
 
     test(
         "Should throw a ServerException when the response code is 404 or other",
-            () async {
-          setUpMockHttpClient404();
+        () async {
+      setUpMockHttpClient404();
 
-          final call = dataSource.getJokeBySearch;
+      final call = dataSource.getJokeBySearch;
 
-          expect(() => call(testTextSearch),
-              throwsA(const TypeMatcher<ServerException>()));
-        });
+      expect(() => call(testTextSearch),
+          throwsA(const TypeMatcher<ServerException>()));
+    });
   });
 
   group('getRandomJokes', () {
@@ -119,18 +121,16 @@ void main() {
 
     test(
         "Should perform a Get request on a URL with textCategory being the endpoint and with application/json header",
-            () async {
-          setUpMockHttpClientSuccess200();
+        () async {
+      setUpMockHttpClientSuccess200();
 
-          await dataSource.getRandomJoke();
+      await dataSource.getRandomJoke();
 
-          verify(mockHttpClient.get(
-              Uri.parse(
-                  'https://api.chucknorris.io/jokes/random'),
-              headers: {
-                'Content-Type': 'application/json',
-              }));
-        });
+      verify(mockHttpClient
+          .get(Uri.parse('https://api.chucknorris.io/jokes/random'), headers: {
+        'Content-Type': 'application/json',
+      }));
+    });
 
     test("Should return Jokes when the response code is 200", () async {
       setUpMockHttpClientSuccess200();
@@ -142,14 +142,12 @@ void main() {
 
     test(
         "Should throw a ServerException when the response code is 404 or other",
-            () async {
-          setUpMockHttpClient404();
+        () async {
+      setUpMockHttpClient404();
 
-          final call = dataSource.getRandomJoke;
+      final call = dataSource.getRandomJoke;
 
-          expect(() => call(),
-              throwsA(const TypeMatcher<ServerException>()));
-        });
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
+    });
   });
-
 }

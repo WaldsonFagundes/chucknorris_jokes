@@ -1,10 +1,10 @@
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/categories_remote_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/categories.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/categories_repository.dart';
+// Package imports:
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/error/execeptions.dart';
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../../domain/domain_e.dart';
+import '../datasources/datasources_e.dart';
 
 class CategoriesRepositoryImpl implements CategoriesRepository {
   final CategoriesRemoteDataSource remoteDataSource;

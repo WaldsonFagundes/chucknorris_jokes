@@ -1,13 +1,11 @@
-import 'package:chucknorris_jokes/core/error/execeptions.dart';
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
+// Package imports:
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/network/network_info.dart';
-import '../models/joke_model.dart';
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../../domain/domain_e.dart';
+import '../datasources/datasources_e.dart';
+import '../models/models_e.dart';
 
 typedef _TypesOfGetJokes = Future<Joke> Function();
 
@@ -23,8 +21,7 @@ class JokeRepositoryImpl implements JokeRepository {
 
   @override
   Future<Either<Failure, Joke>> getJokeByCategory(String category) async {
-    return await _getJokes(
-        () => remoteDataSource.getJokesByCategory(category));
+    return await _getJokes(() => remoteDataSource.getJokesByCategory(category));
   }
 
   @override

@@ -1,8 +1,10 @@
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/core/usecases/usecase.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/repositories/joke_repository.dart';
+// Package imports:
 import 'package:dartz/dartz.dart';
+
+// Project imports:
+import '../../../../core/core_e.dart';
+import '../entities/entities_e.dart';
+import '../repositories/repositories_e.dart';
 
 class GetRandomJoke implements UseCase<Joke, RandomNoParams> {
   final JokeRepository repository;

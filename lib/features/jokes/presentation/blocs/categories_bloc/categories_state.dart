@@ -1,6 +1,8 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/categories.dart';
+// Project imports:
+import '../../../domain/entities/entities_e.dart';
 
 abstract class CategoriesState extends Equatable {
   const CategoriesState();

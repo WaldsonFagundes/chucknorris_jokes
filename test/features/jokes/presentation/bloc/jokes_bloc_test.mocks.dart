@@ -3,9 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:async' as _i6;
 
+// Package imports:
+import 'package:dartz/dartz.dart' as _i3;
+import 'package:mockito/mockito.dart' as _i1;
+
+// Project imports:
 import 'package:chucknorris_jokes/core/error/failures.dart' as _i7;
+
 import 'package:chucknorris_jokes/features/jokes/domain/entities/categories.dart'
     as _i12;
 import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart'
@@ -22,8 +30,6 @@ import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_joke_by_sea
     as _i9;
 import 'package:chucknorris_jokes/features/jokes/domain/usecases/get_random_joke.dart'
     as _i10;
-import 'package:dartz/dartz.dart' as _i3;
-import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
