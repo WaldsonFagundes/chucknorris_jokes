@@ -1,6 +1,6 @@
 # Chuck Norris Jokes App
 
-![Chuck Norris Jokes](link-para-uma-imagem-ou-banner-do-app)
+![Chuck Norris Jokes](https://github.com/WaldsonFagundes/chucknorris_jokes/blob/main/assets/img.png)
 
 ## Descrição
 
@@ -49,20 +49,16 @@ Este aplicativo foi desenvolvido seguindo os princípios da Arquitetura Limpa, g
    ```sh
    git clone https://github.com/WaldsonFagundes/chucknorris_jokes.git
 
-2. **Navegre até o diretorio do projeto**
-   ```sh
-   cd seu-repositorio
-
-3. **Instale as dependências**
+2. **Instale as dependências**
    ```sh
    flutter pub get
 
-4. **Execute o aplicativo**
+3. **Execute o aplicativo**
     ```sh
     flutter run
     
 ### Testes
-    ```sh
+    
     flutter test
 
 ### Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
