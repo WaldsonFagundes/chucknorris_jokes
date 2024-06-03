@@ -8,4 +8,9 @@ class Joke extends Equatable {
 
   @override
   List<Object?> get props => [jokeText];
+
+  @override
+  String toString() {
+    return 'Joke(jokeText: $jokeText)';
+  }
 }

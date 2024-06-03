@@ -11,28 +11,27 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
   CategoriesBloc({required this.getCategories})
       : super(CategoriesInitialState()) {
-    on<CategoriesEvent>((event, emit) async {
-      if (event is FetchCategories) {
-        emit(CategoriesInitialState());
-        emit(CategoriesLoading());
-        final failureOrCategories = await getCategories(CategoriesNoParams());
-
-        emit(failureOrCategories.fold(
-            (failure) =>
-                CategoriesError(message: _mapFailureToMessage(failure)),
-            (categories) => CategoriesLoaded(categories: categories)));
-      }
-    });
+    on<FetchCategories>(_onFetchCategories);
   }
-}
 
-String _mapFailureToMessage(Failure failure) {
-  switch (failure.runtimeType) {
-    case ServerFailure:
-      return serverFailureMessage;
-    case CacheFailure:
-      return cacheFailureMessage;
-    default:
-      return 'Unexpected error';
+  Future<void> _onFetchCategories(
+      FetchCategories event, Emitter<CategoriesState> emit) async {
+    emit(CategoriesLoading());
+    final failureOrCategories = await getCategories(NoParams());
+
+    emit(failureOrCategories.fold(
+        (failure) => CategoriesError(message: _mapFailureToMessage(failure)),
+        (categories) => CategoriesLoaded(categories: categories)));
+  }
+
+  String _mapFailureToMessage(Failure failure) {
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return serverFailureMessage;
+      case NetworkFailure:
+        return networkFailureMessage;
+      default:
+        return 'Unexpected error';
+    }
   }
 }

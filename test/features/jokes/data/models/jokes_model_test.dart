@@ -10,10 +10,10 @@ import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  const testJokesModel = JokeModel(jokeText: 'Test text');
+  const testJokeModel = JokeModel(jokeText: 'Test text');
 
   test("Should be a subclass of NumberTrivia entity", () {
-    expect(testJokesModel, isA<Joke>());
+    expect(testJokeModel, isA<Joke>());
   });
 
   group('fromJson', () {
@@ -23,13 +23,13 @@ void main() {
 
       final result = JokeModel.fromJson(jsonMap);
 
-      expect(result, testJokesModel);
+      expect(result, testJokeModel);
     });
   });
 
   group('toJson', () {
     test("Should return a JSON map containing the proper data", () {
-      final result = testJokesModel.toJson();
+      final result = testJokeModel.toJson();
 
       final expectMap = {"value": "Test text"};
 

@@ -11,10 +11,10 @@ import '../models/models_e.dart';
 abstract class JokeLocalDataSource {
   Future<JokeModel> getLastJoke();
 
-  Future<void> cacheJoke(JokeModel jokesCache);
+  Future<void> cacheJoke(JokeModel jokeCache);
 }
 
-const cachedJoke = "CACHED_JOKE";
+const String cachedJokeKey = "CACHED_JOKE";
 
 class JokeLocalDataSourceImpl implements JokeLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -22,15 +22,16 @@ class JokeLocalDataSourceImpl implements JokeLocalDataSource {
   JokeLocalDataSourceImpl({required this.sharedPreferences});
 
   @override
-  Future<void> cacheJoke(JokeModel jokesCache) async {
-    sharedPreferences.setString(cachedJoke, json.encode(jokesCache));
+  Future<void> cacheJoke(JokeModel jokeCache) async {
+    sharedPreferences.setString(cachedJokeKey, json.encode(jokeCache));
   }
 
   @override
   Future<JokeModel> getLastJoke() {
-    final jsonString = sharedPreferences.getString(cachedJoke);
+    final jsonString = sharedPreferences.getString(cachedJokeKey);
     if (jsonString != null) {
-      return Future.value(JokeModel.fromJson(json.decode(jsonString)));
+      final jsonMap = json.decode(jsonString);
+      return Future.value(JokeModel.fromJson(jsonMap));
     } else {
       throw CacheException();
     }

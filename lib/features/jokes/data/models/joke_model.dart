@@ -6,13 +6,18 @@ class JokeModel extends Joke {
     required super.jokeText,
   });
 
+  static const String _valueKey = 'value';
+
   factory JokeModel.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey(_valueKey)) {
+      throw const FormatException("missing key: $_valueKey");
+    }
     return JokeModel(
-      jokeText: json['value'],
+      jokeText: json[_valueKey],
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {'value': jokeText};
+    return {_valueKey: jokeText};
   }
 }

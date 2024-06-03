@@ -61,7 +61,7 @@ Widget buildBody(BuildContext context) {
                   jokes: state.jokes,
                 );
               } else {
-                return Container();
+                return const MessageDisplay(message: 'Something went wrong!');
               }
             },
           ),

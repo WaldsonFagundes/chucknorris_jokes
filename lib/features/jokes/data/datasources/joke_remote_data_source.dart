@@ -30,27 +30,30 @@ class JokeRemoteDataSourceImpl implements JokeRemoteDataSource {
 
   JokeRemoteDataSourceImpl({required this.client});
 
-  @override
-  Future<JokeModel> getJokesByCategory(String category) => _getJokeFromUrl(
-      'https://api.chucknorris.io/jokes/random?category=$category');
+  static const String _baseUrl = 'https://api.chucknorris.io/jokes';
+  static const Map<String, String> _headers = {
+    'Content-Type': 'application/json',
+  };
 
   @override
-  Future<JokeModel> getRandomJoke() =>
-      _getJokeFromUrl('https://api.chucknorris.io/jokes/random');
+  Future<JokeModel> getJokesByCategory(String category) =>
+      _getJokeFromUrl('$_baseUrl/random?category=$category');
+
+  @override
+  Future<JokeModel> getRandomJoke() => _getJokeFromUrl('$_baseUrl/random');
 
   @override
   Future<JokeModel> getJokeBySearch(String textSearch) {
-    return _getJokeFromUrl(
-        'https://api.chucknorris.io/jokes/search?query=$textSearch');
+    return _getJokeFromUrl('$_baseUrl/search?query=$textSearch');
   }
 
   Future<JokeModel> _getJokeFromUrl(String url) async {
-    final response = await client.get(Uri.parse(url), headers: {
-      'Content-Type': 'application/json',
-    });
+    final response = await client.get(Uri.parse(url), headers: _headers);
+
     if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+
       if (url.contains('search')) {
-        final jsonResponse = json.decode(response.body);
         final jokesList = jsonResponse['result'] as List;
         if (jokesList.isNotEmpty) {
           return JokeModel.fromJson(jokesList.first);
@@ -59,7 +62,7 @@ class JokeRemoteDataSourceImpl implements JokeRemoteDataSource {
         }
       }
 
-      return JokeModel.fromJson(json.decode(response.body));
+      return JokeModel.fromJson(jsonResponse);
     } else {
       throw ServerException();
     }

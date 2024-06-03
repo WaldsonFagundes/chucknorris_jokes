@@ -35,7 +35,7 @@ void main() {
         .thenAnswer((_) async => http.Response('Something went wrong', 404));
   }
 
-  group('getRandomCategoryJokes', () {
+  group('getJokeByCategory', () {
     const testTextCategory = 'test category';
     final testJokesModel = JokeModel.fromJson(
         json.decode(fixtureReader('jokes_api_response.json')));
@@ -75,7 +75,7 @@ void main() {
     });
   });
 
-  group('getWithTextJokes', () {
+  group('getJokeBySearch', () {
     const testTextSearch = 'anything';
     final testJokesModel = JokeModel.fromJson(
         json.decode(fixtureReader('jokes_api_response.json')));
@@ -119,7 +119,7 @@ void main() {
     });
   });
 
-  group('getRandomJokes', () {
+  group('getRandomJoke', () {
     final testJokesModel = JokeModel.fromJson(
         json.decode(fixtureReader('jokes_api_response.json')));
 

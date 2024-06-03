@@ -7,7 +7,7 @@ import '../../domain/domain_e.dart';
 import '../datasources/datasources_e.dart';
 import '../models/models_e.dart';
 
-typedef _TypesOfGetJokes = Future<Joke> Function();
+typedef _GetJokeFunction = Future<Joke> Function();
 
 class JokeRepositoryImpl implements JokeRepository {
   final JokeRemoteDataSource remoteDataSource;
@@ -21,33 +21,33 @@ class JokeRepositoryImpl implements JokeRepository {
 
   @override
   Future<Either<Failure, Joke>> getJokeByCategory(String category) async {
-    return await _getJokes(() => remoteDataSource.getJokesByCategory(category));
+    return await _getJoke(() => remoteDataSource.getJokesByCategory(category));
   }
 
   @override
   Future<Either<Failure, Joke>> getRandomJokes() async {
-    return await _getJokes(() => remoteDataSource.getRandomJoke());
+    return await _getJoke(() => remoteDataSource.getRandomJoke());
   }
 
   @override
   Future<Either<Failure, Joke>> getJokeBySearch(String text) async {
-    return await _getJokes(() => remoteDataSource.getJokeBySearch(text));
+    return await _getJoke(() => remoteDataSource.getJokeBySearch(text));
   }
 
-  Future<Either<Failure, Joke>> _getJokes(
-      _TypesOfGetJokes getTypesOfMethods) async {
+  Future<Either<Failure, Joke>> _getJoke(
+      _GetJokeFunction getJokeFunction) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteJokes = await getTypesOfMethods();
-        localDataSource.cacheJoke(remoteJokes as JokeModel);
-        return Right(remoteJokes);
+        final remoteJoke = await getJokeFunction();
+        localDataSource.cacheJoke(remoteJoke as JokeModel);
+        return Right(remoteJoke);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       try {
-        final localTrivia = await localDataSource.getLastJoke();
-        return Right(localTrivia);
+        final localJoke = await localDataSource.getLastJoke();
+        return Right(localJoke);
       } on CacheException {
         return Left(CacheFailure());
       }

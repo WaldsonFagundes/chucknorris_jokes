@@ -5,15 +5,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 // Project imports:
-import 'package:chucknorris_jokes/core/error/exceptions.dart';
-import 'package:chucknorris_jokes/core/error/failures.dart';
-import 'package:chucknorris_jokes/core/network/network_info.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_local_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/datasources/joke_remote_data_source.dart';
-import 'package:chucknorris_jokes/features/jokes/data/models/joke_model.dart';
-import 'package:chucknorris_jokes/features/jokes/data/repositories/joke_repository_impl.dart';
-import 'package:chucknorris_jokes/features/jokes/domain/entities/joke.dart';
-import 'jokes_repository_impl_test.mocks.dart';
+import 'package:chucknorris_jokes/core/core_e.dart';
+import 'package:chucknorris_jokes/features/jokes/jokes_e.dart';
+import 'joke_repository_impl_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<JokeRemoteDataSource>()])
 @GenerateNiceMocks([MockSpec<JokeLocalDataSource>()])
@@ -36,6 +30,9 @@ void main() {
     );
   });
 
+  const testJokeModel = JokeModel(jokeText: 'test text');
+  const Joke testJoke = testJokeModel;
+
   void runTestsOnline(Function body) {
     group('device is online', () {
       setUp(() {
@@ -54,14 +51,12 @@ void main() {
     });
   }
 
-  group('getRandomCategoryJokes', () {
+  group('getJokeByCategory', () {
     const testCategory = 'any category';
-    const testJokeModel = JokeModel(jokeText: 'test text');
-    const Joke testJoke = testJokeModel;
 
     runTestsOnline(() {
       test(
-          "Should return remote data WHEN the call to remote data is successfull ",
+          "Should return remote data when the call to remote data is successful",
           () async {
         when(mockRemoteDataSource.getJokesByCategory(any))
             .thenAnswer((_) async => testJokeModel);
@@ -73,7 +68,7 @@ void main() {
       });
 
       test(
-          "Should cache the data locally when the call to remote data source is successfull ",
+          "Should cache the data locally when the call to remote data source is successful ",
           () async {
         when(mockRemoteDataSource.getJokesByCategory(any))
             .thenAnswer((_) async => testJokeModel);
@@ -111,7 +106,7 @@ void main() {
         expect(result, equals(const Right(testJoke)));
       });
 
-      test("Should return CacheFailure When there is no cached data present",
+      test("Should return cache failure when there is no cached data present",
           () async {
         when(mockLocalDataSource.getLastJoke()).thenThrow(CacheException());
 
@@ -123,10 +118,8 @@ void main() {
       });
     });
   });
-  group('getWithTextJokes', () {
+  group('getJokeBySearch', () {
     const testTextSearch = 'any search';
-    const testJokeModel = JokeModel(jokeText: 'test text');
-    const Joke testJoke = testJokeModel;
 
     runTestsOnline(() {
       test(
@@ -193,9 +186,6 @@ void main() {
     });
   });
   group('getRandomJokes', () {
-    const testJokeModel = JokeModel(jokeText: 'test text');
-    const Joke testJoke = testJokeModel;
-
     runTestsOnline(() {
       test(
           "Should return remote data WHEN the call to remote data is successfull ",

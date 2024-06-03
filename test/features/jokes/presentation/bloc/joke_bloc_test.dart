@@ -7,58 +7,68 @@ import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:chucknorris_jokes/core/core_e.dart';
 import 'package:chucknorris_jokes/features/jokes/jokes_e.dart';
-import 'jokes_bloc_test.mocks.dart';
+import 'joke_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<GetJokeByCategory>()])
 @GenerateNiceMocks([MockSpec<GetJokeBySearch>()])
 @GenerateNiceMocks([MockSpec<GetRandomJoke>()])
-@GenerateNiceMocks([MockSpec<GetCategories>()])
+
 void main() {
-  late MockGetJokeByCategory mockGetRandomCategoryJokes;
-  late MockGetJokeBySearch mockGetWithTextJokes;
-  late MockGetRandomJoke mockGetRandomJokes;
+  late MockGetJokeByCategory mockGetJokeByCategory;
+  late MockGetJokeBySearch mockGetJokeBySearch;
+  late MockGetRandomJoke mockGetRandomJoke;
   late JokeBloc bloc;
 
   setUp(() {
-    mockGetRandomCategoryJokes = MockGetJokeByCategory();
-    mockGetWithTextJokes = MockGetJokeBySearch();
-    mockGetRandomJokes = MockGetRandomJoke();
+    mockGetJokeByCategory = MockGetJokeByCategory();
+    mockGetJokeBySearch = MockGetJokeBySearch();
+    mockGetRandomJoke = MockGetRandomJoke();
 
     bloc = JokeBloc(
-      getJokeByCategory: mockGetRandomCategoryJokes,
-      getRandomJoke: mockGetRandomJokes,
-      getJokeBySearch: mockGetWithTextJokes,
+      getJokeByCategory: mockGetJokeByCategory,
+      getRandomJoke: mockGetRandomJoke,
+      getJokeBySearch: mockGetJokeBySearch,
     );
   });
 
-  test("initialState should be Empty ", () {
+  const testJokes = Joke(jokeText: 'Test joke');
+  const testTextCategory = 'any category';
+  const testTextSearch = 'any search';
+
+  void setUpMockSuccess({
+    required Future<Either<Failure, Joke>> Function() function,
+  }) {
+    when(function()).thenAnswer((_) async => const Right(testJokes));
+  }
+
+  void setUpMockFailure({
+    required Future<Either<Failure, Joke>> Function() function,
+    required Failure failure,
+  }) {
+    when(function()).thenAnswer((_) async => Left(failure));
+  }
+
+  test("initialState should be JokeInitialState", () {
     expect(bloc.state, equals(JokeInitialState()));
   });
 
-  group('GetRandomCategoryJokes', () {
-    const testTextCategory = 'any category';
+  group('GetJokeByCategory', () {
+    setUp(() {
+      setUpMockSuccess(function: () => mockGetJokeByCategory(any));
+    });
 
-    const testJokes = Joke(jokeText: 'Test joke');
-
-    test("Should get data from the GetRandomCategoryJokes use case", () async {
-      when(mockGetRandomCategoryJokes(any))
-          .thenAnswer((_) async => const Right(testJokes));
-
+    test("Should get data from the GetJokeByCategory use case", () async {
       bloc.add(const FetchJokeByCategory(testTextCategory));
 
-      await untilCalled(mockGetRandomCategoryJokes(any));
+      await untilCalled(mockGetJokeByCategory(any));
 
-      verify(mockGetRandomCategoryJokes(
+      verify(mockGetJokeByCategory(
           const CategoryParams(category: testTextCategory)));
     });
 
     test("Should emit [Loading, Loaded] when data is gotten successfully",
         () async {
-      when(mockGetRandomCategoryJokes(any))
-          .thenAnswer((_) async => const Right(testJokes));
-
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeLoaded(jokes: testJokes),
       ];
@@ -69,11 +79,10 @@ void main() {
     });
 
     test("Should emit [Loading, Error] when getting data fails", () async {
-      when(mockGetRandomCategoryJokes(any))
-          .thenAnswer((_) async => Left(ServerFailure()));
+      setUpMockFailure(
+          function: () => mockGetJokeByCategory(any), failure: ServerFailure());
 
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeError(message: serverFailureMessage)
       ];
@@ -86,11 +95,10 @@ void main() {
     test(
         "Should emit [Loading, Error] when a proper message for the error when getting data",
         () async {
-      when(mockGetRandomCategoryJokes(any))
-          .thenAnswer((_) async => Left(CacheFailure()));
+      setUpMockFailure(
+          function: () => mockGetJokeByCategory(any), failure: CacheFailure());
 
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeError(message: cacheFailureMessage)
       ];
@@ -101,29 +109,21 @@ void main() {
     });
   });
 
-  group('GetWithTextJokes', () {
-    const testTextSearch = 'any search';
-
-    const testJokes = Joke(jokeText: 'Test joke');
-
-    test("Should get data from the GetRandomCategoryJokes use case", () async {
-      when(mockGetWithTextJokes(any))
-          .thenAnswer((_) async => const Right(testJokes));
-
+  group('GetJokeBySearch', () {
+    setUp(() {
+      setUpMockSuccess(function: () => mockGetJokeBySearch(any));
+    });
+    test("Should get data from the GetJokeBySearch use case", () async {
       bloc.add(const FetchJokeBySearch(testTextSearch));
 
-      await untilCalled(mockGetWithTextJokes(any));
+      await untilCalled(mockGetJokeBySearch(any));
 
-      verify(mockGetWithTextJokes(const SearchParams(text: testTextSearch)));
+      verify(mockGetJokeBySearch(const SearchParams(text: testTextSearch)));
     });
 
     test("Should emit [Loading, Loaded] when data is gotten successfully",
         () async {
-      when(mockGetWithTextJokes(any))
-          .thenAnswer((_) async => const Right(testJokes));
-
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeLoaded(jokes: testJokes),
       ];
@@ -134,11 +134,10 @@ void main() {
     });
 
     test("Should emit [Loading, Error] when getting data fails", () async {
-      when(mockGetWithTextJokes(any))
-          .thenAnswer((_) async => Left(ServerFailure()));
+      setUpMockFailure(
+          function: () => mockGetJokeBySearch(any), failure: ServerFailure());
 
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeError(message: serverFailureMessage)
       ];
@@ -151,11 +150,10 @@ void main() {
     test(
         "Should emit [Loading, Error] when a proper message for the error when getting data",
         () async {
-      when(mockGetWithTextJokes(any))
-          .thenAnswer((_) async => Left(CacheFailure()));
+      setUpMockFailure(
+          function: () => mockGetJokeBySearch(any), failure: CacheFailure());
 
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeError(message: cacheFailureMessage)
       ];
@@ -166,25 +164,20 @@ void main() {
     });
   });
 
-  group('GetRandomJokes', () {
-    const testJokes = Joke(jokeText: 'Test joke');
+  group('GetRandomJoke', () {
+    setUp(() {
+      setUpMockSuccess(function: () => mockGetRandomJoke(any));
+    });
 
     test("Should get data from the random use case", () async {
-      when(mockGetRandomJokes(any))
-          .thenAnswer((_) async => const Right(testJokes));
-
       bloc.add(FetchRandomJoke());
 
-      await untilCalled(mockGetRandomJokes(any));
+      await untilCalled(mockGetRandomJoke(any));
     });
 
     test("Should emit [Loading, Loaded] when data is gotten successfully",
         () async {
-      when(mockGetRandomJokes(any))
-          .thenAnswer((_) async => const Right(testJokes));
-
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeLoaded(jokes: testJokes),
       ];
@@ -193,11 +186,10 @@ void main() {
       bloc.add(FetchRandomJoke());
     });
     test("Should emit [Loading, Error] when getting data fails", () async {
-      when(mockGetRandomJokes(any))
-          .thenAnswer((_) async => Left(ServerFailure()));
+      setUpMockFailure(
+          function: () => mockGetRandomJoke(any), failure: ServerFailure());
 
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeError(message: serverFailureMessage)
       ];
@@ -210,11 +202,10 @@ void main() {
     test(
         "Should emit [Loading, Error] when a proper message for the error when getting data",
         () async {
-      when(mockGetRandomJokes(any))
-          .thenAnswer((_) async => Left(CacheFailure()));
+      setUpMockFailure(
+          function: () => mockGetRandomJoke(any), failure: CacheFailure());
 
       final expected = [
-        JokeInitialState(),
         JokeLoading(),
         const JokeError(message: cacheFailureMessage)
       ];

@@ -8,15 +8,21 @@ import '../datasources/datasources_e.dart';
 
 class CategoriesRepositoryImpl implements CategoriesRepository {
   final CategoriesRemoteDataSource remoteDataSource;
+  final NetworkInfo networkInfo;
 
-  CategoriesRepositoryImpl({required this.remoteDataSource});
+  CategoriesRepositoryImpl({required this.remoteDataSource, required this.networkInfo});
 
   @override
   Future<Either<Failure, Categories>> getCategories() async {
-    try {
-      return Right(await remoteDataSource.getCategories());
-    } on ServerException {
-      return Left(ServerFailure());
+    if(await networkInfo.isConnected){
+      try {
+        return Right(await remoteDataSource.getCategories());
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
     }
+
   }
 }
